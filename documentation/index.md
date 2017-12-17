@@ -23,16 +23,19 @@ With all the following commands, copy and paste them *exactly* as you see them. 
 Now use the memory read command to verify your quanta bootloader is where it should be, to ensure the commands to follow will use the correct location:
 
 ```
-md 0xfff80000 20
+md 0xfff80000 100
 ```
 
 the output should match this exactly:
 
 ```
-fffff000: 38000002 7c12fba6 7c13fba6 7c304aa6    8...|...|...|0J.
-fffff010: PLACEHOLDER PLZ REPLACE ME 7c52fba6    |0K.<@..`B..|R..
-fffff020: 4c00012c 7c53fba6 4c00012c 7c0004ac    L..,|S..L..,|...
-fffff030: 3c20fff8 7c3f0ba6 38200100 7c3063a6    < ..|?..8 ..|0c.
+fff80000: 4d55 4348 0205 7be5 0005 a2d6 0000 4058    MUCH..{.......@X
+fff80010: 0000 0000 0001 2f2c 0004 d880 0060 0028    ....../,.....`.(
+fff80020: 00REPLACE WITH QUANTA   fff ffff 0000 0000    ...0............
+fff80030: 4e6a b6ae 0703 0000 7472 7a30 3733 3030    Nj......trz07300
+fff80040: 0000 0000 0000 0000 0000 0000 0000 0000    ................
+fff80050: 0000 0000 0000 0000 0000 0000 0000 0000    ................
+fff80060: 0000 0000 0000 0000 0000 0000 0000 0000    ................
 ```
 
 If the output on your switch does not match this exactly, **STOP!** Pastebin your switches output and get in touch with us on [ServeTheHome](https://forums.servethehome.com/index.php?threads/quanta-lb6m-10gbe-discussion.8002/) - we'll help you figure it out.
@@ -51,22 +54,36 @@ tftpboot 0x100000 brocadeboot.bin
 
 The tftpboot command should have output like below:
 ```
-proper tftpboot output goes here #PLACEHOLDER
+=> tftpboot 0x100000 trz07300.bin
+Enet starting in 1000BT/FD
+Speed: 1000, full duplex
+Using TSEC0 device
+TFTP from server 192.168.85.253; our IP address is 192.168.85.252
+Filename 'trz07300.bin'.
+Load address: 0x100000
+Loading: #################################################################
+######################################
+done
+Bytes transferred = 524288 (80000 hex)
 ```
 
 Now you need to verify that the temporary address contains the brocade bootloader:
 
 ```
-md 0x100000 20 #PLACEHOLDER
+md 0x100000 100
 ```
 
 The output should match the below exactly:
 
 ```
-fffff000: 38000002 7c12fba6 7c13fba6 7c304aa6    8...|...|...|0J.
-fffff010: PLACEHOLDER PLZ REPLACE ME 7c52fba6    |0K.<@..`B..|R..
-fffff020: 4c00012c 7c53fba6 4c00012c 7c0004ac    L..,|S..L..,|...
-fffff030: 3c20fff8 7c3f0ba6 38200100 7c3063a6    < ..|?..8 ..|0c.
+00100000: 4d55 4348 0205 7be5 0005 a2d6 0000 4058    MUCH..{.......@X
+00100010: 0000 0000 0001 2f2c 0004 d880 0060 0028    ....../,.....`.(
+00100020: 0003 0030 0004 ffff ffff ffff 0000 0000    ...0............
+00100030: 4e6a b6ae 0703 0000 7472 7a30 3733 3030    Nj......trz07300
+00100040: 0000 0000 0000 0000 0000 0000 0000 0000    ................
+00100050: 0000 0000 0000 0000 0000 0000 0000 0000    ................
+00100060: 0000 0000 0000 0000 0000 0000 0000 0000    ................
+00100070: 0000 0000 0000 0000 0000 0000 0000 0000    ................
 ```
 If it doesn't match, **STOP**. You can safely reboot back to quanta by typing reset or power cycling it. if you'd like, pastebin the output and get in touch with us on ServeTheHome. If it does match, continue on.
 
@@ -85,16 +102,20 @@ cp.b 0x100000 0xfff80000 0x80000
 Congratulations, you've installed the brocade bootloader (which can load the brocade software image). **DO NOT REBOOT YET!** First verify the brocade bootloader is in the bootloader location:
 
 ```
-md 0xfff80000 20
+md 0xfff80000 100
 ```
 
 The output from your switch should match the below exactly:
 
 ```
-fffff000: 38000002 7c12fba6 7c13fba6 7c304aa6    8...|...|...|0J.
-fffff010: PLACEHOLDER PLZ REPLACE ME 7c52fba6    |0K.<@..`B..|R..
-fffff020: 4c00012c 7c53fba6 4c00012c 7c0004ac    L..,|S..L..,|...
-fffff030: 3c20fff8 7c3f0ba6 38200100 7c3063a6    < ..|?..8 ..|0c.
+00100000: 4d55 4348 0205 7be5 0005 a2d6 0000 4058    MUCH..{.......@X
+00100010: 0000 0000 0001 2f2c 0004 d880 0060 0028    ....../,.....`.(
+00100020: 0003 0030 0004 ffff ffff ffff 0000 0000    ...0............
+00100030: 4e6a b6ae 0703 0000 7472 7a30 3733 3030    Nj......trz07300
+00100040: 0000 0000 0000 0000 0000 0000 0000 0000    ................
+00100050: 0000 0000 0000 0000 0000 0000 0000 0000    ................
+00100060: 0000 0000 0000 0000 0000 0000 0000 0000    ................
+00100070: 0000 0000 0000 0000 0000 0000 0000 0000    ................
 ```
 
 If it matches, continue on to **Booting Brocade** below - the scary part is over. However if it doesn't, stay calm. Does it match the output you got earlier when you ran "md 0xfff80000 100" at the beginning of this guide? If so, that means the Quanta bootloader is still there. Either you didn't properly disable write protection, or something else has gone wrong. You can reboot into quanta like normal, and contact us on the forums. 
