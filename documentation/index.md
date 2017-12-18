@@ -151,29 +151,30 @@ ip address 192.168.1.50/24
 boot system tftp 192.168.1.49 brocadeimage.bin
 ```
 
-It will now boot into the full brocade firmware, however we still need to actually flash it to the device flash as well as fix flash permissions by re-flashing the bootloader using Brocade's official bootloader flashing routine:
-
+It will now boot into the full brocade firmware, however we still need to actually flash it to the device flash as well as fix flash permissions by re-flashing the bootloader using Brocade's official bootloader flashing routine:  
+give the mgmt interface an address so it can contact your tftp server:
 ```
 enable
-#give the mgmt interface an address so it can contact your tftp server
 conf t
 int management 1
 ip addr 192.168.1.50/24
 exit
 write mem
-#reflash the bootloader using brocade flash routine, to fix permissions 
-#Substitute IP's with your tftp server
+```
+reflash the bootloader using brocade flash routine, to fix permissions, substitute IP's with your tftp server:
+```
 copy tftp flash 192.168.10.49 brocadeboot.bin bootrom
-#reboot the switch so the new bootloader fixes perms
-#you won't be able to write to flash until you do this
+reboot the switch so the new bootloader fixes perms. You won't be able to write to flash until you do this:
+```
 reload
-#now load and write the firmware
-#If your management IP config from earlier didn't save, 
-#you'll need to redo those steps to give it an IP again
+```
+If your management IP config from earlier didn't save, you'll need to redo those steps to give it an IP again. Now load and write the firmware:
+```
 enable
 copy tftp flash 192.168.1.49 brocadeimage.bin primary
-#It now perfectly matches a stock Brocade Turboiron
-#reboot and it will come up on it's own like a stock device
+```
+It now perfectly matches a stock Brocade Turboiron. Reboot and it will come up on it's own like a stock device:
+```
 reload
 ```
 
