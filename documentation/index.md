@@ -142,12 +142,11 @@ You now have the Brocade bootloader in the bootloader section of the PowerPC fla
 reset
 ```
 It will now reboot into the Brocade bootloader. In the Brocade software over serial or telnet, you need to use shift+backspace to backspace. You can remedy this by changing your Putty/terminal settings to "Control+H" for backspace method under Terminal>Keyboard and backspace won't require shift. Once you get it up and running, you can also configure SSH which uses normal backspaces.  
-Now we need to tftpboot the brocade software image:
 
+Firstly boot the OS image via tftp. You need to first give the bootloader a temporary unique IP, then boot the firmware file using the IP address of your tftp server:
 ```
-#give the bootloader a temporary unique IP
+
 ip address 192.168.1.50/24
-#boot the firmware, using the IP of your tftp server
 boot system tftp 192.168.1.49 brocadeimage.bin
 ```
 
@@ -161,10 +160,11 @@ ip addr 192.168.1.50/24
 exit
 write mem
 ```
-reflash the bootloader using brocade flash routine, to fix permissions, substitute IP's with your tftp server:
+Reflash the bootloader using brocade flash routine, to fix permissions, substitute IP's with your tftp server:
 ```
 copy tftp flash 192.168.10.49 brocadeboot.bin bootrom
-reboot the switch so the new bootloader fixes perms. You won't be able to write to flash until you do this:
+```
+Reboot the switch so the new bootloader fixes perms. You won't be able to write to flash until you do this:
 ```
 reload
 ```
