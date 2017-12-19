@@ -160,7 +160,7 @@ ip addr 192.168.1.50/24
 exit
 write mem
 ```
-Reflash the bootloader using brocade flash routine, to fix permissions, substitute IP's with your tftp server:
+Reflash the bootloader using Brocade's flash routine to fix permissions, substitute IP's with your tftp server:
 ```
 copy tftp flash 192.168.10.49 brocadeboot.bin bootrom
 ```
