@@ -1,4 +1,4 @@
-##brocade L3 Beginner Guide
+##Getting Started
 
 
 Brocade's CLI is nearly 90% identical to Cisco, with the majority of the differences being related to VLAN configuration. This short intro will get you set up with an account, SSH, and an in-band IP for the switch on one VLAN. The Layer 3 firmware comes with all ports in VLAN 1 by default, so if you just need layer 2 switching, you can leave the VLAN/virtual interface config as-is and use the out of band management port to talk to the switch.
