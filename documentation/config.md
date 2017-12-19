@@ -126,7 +126,7 @@ exit
 You can specify up to 8 or as little NTP servers as you'd like. Only IP addresses are allowed, no hostnames.
 
 
-##Saving && Conclusions
+##Saving & Conclusions
 Now of course none of the changes have actually been saved to flash, so on next boot they'll disappear. To save your current running configuration so they remain on reboot:
 ```
 write memory
