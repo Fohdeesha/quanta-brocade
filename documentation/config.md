@@ -161,4 +161,13 @@ show chassis
 show version
 show log
 ```
-These have all been very basic commands and most of them will take many more arguments for advanced configuration. We highly recommend referring to the included documentation to continue further.
+These have all been very basic commands and most of them will take many more arguments for advanced configuration. We highly recommend referring to the included documentation to continue further.  
+
+###Thanks:
+[**Jon Sands**](http://fohdeesha.com/)  
+[**Bengt-Erik Norum**](http://amateurfoundation.org/)  
+[**FBOM**](http://fbom.club/)  
+**fvanlint** from STH for being our first method tester
+
+###Contributing:
+The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.

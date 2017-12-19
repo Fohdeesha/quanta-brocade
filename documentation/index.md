@@ -9,15 +9,17 @@ Two things will also change due to hardware differences:
 
 * The Brocade only has one Out Of Band management port. Your #2 OOB port will no longer do anything. You'll still have OOB management as usual on mgmt #1, and of course in-band management on all the normal ports.
 
-* While it may be possible to flash back to Quanta, we haven't investigated this (the Brocade bootloader does not have the same raw memory copy commands), so for now assume this is a one way trip.
+* While it may be possible to flash back to Quanta, we haven't investigated this (the Brocade bootloader does not have the same raw copy commands), so for now assume this is a one way trip. A trip worth taking, we think.
 ##Prerequisites
 
 This guide assumes you're familiar with the basics like tftp, obtaining a serial console to the device, etc. If you're not, this guide is probably not for you. Before touching your switch, read this document from beginning to end to get a basic idea of what you'll be doing - do **not** skip this step.  
 
-If you miss a part of it you'll render your switch unusable, but that risk can be entirely mitigated by being prepared and following closely. It's also a good idea to have the switch on a UPS while you do this, if you lose power after the *erase* command before you've flashed the new bootloader, your device is a brick (however it can be recovered with a PowerPC capable JTAG unit).  
+The risk of doing this is low and mitigated if you're properly prepared and follow closely. It's a good idea to have the switch on a UPS while you do this, if you lose power after the ```erase``` command before you've flashed the new bootloader, your device will be bricked (however it can be recovered with a PowerPC capable JTAG unit).  
 
 Firstly grab this [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) - it contains your bootloader, OS, and all the documentation you'll need. We're not promising it will be available here long, so keep it somewhere safe. If you redistribute it, please do not exclude or rename any files (keep it complete).  
-Start a tftp server and make sure both *brocadeboot.bin* and *brocadeimage.bin* are being served by your tftp server.  
+
+Start a tftp server and make sure both ```brocadeboot.bin``` and ```brocadeimage.bin``` are being served by your tftp server.  
+
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server, so it can succesfully retrieve them while in u-boot.
 
 
@@ -29,9 +31,9 @@ Reboot the switch while watching the serial output, it should prompt you to hit 
 =>
 ```
 
-With all the following commands, copy and paste them *exactly* as you see them. If a line starts with # it's a comment. Don't try to run that line. 
+With all the following commands, copy and paste them *exactly* as you see them.  
 
-Now use the memory read command to verify your quanta bootloader is where it should be, to ensure the commands to follow will use the correct location:
+Use the memory read command to verify your Quanta bootloader is where it should be - this ensures the commands to follow will use the correct location:
 
 ```
 md 0xfff80000 20
@@ -52,19 +54,19 @@ fff80070: 60631200 7c600124 4c00012c 48002065    c..|.$L..,H. e
 
 If the output on your switch does not match this exactly, **STOP!** Pastebin your switches output and get in touch with us on [ServeTheHome](https://forums.servethehome.com/index.php?threads/quanta-lb6m-10gbe-discussion.8002/) - we'll help you figure it out.
 
-Carrying on, assuming your **md** output matched ours: It's time to load in the brocade bootloader to a safe temporary location in RAM. You also need to set a temporary IP for the switch, as well as set the IP of your tftp server destination:
+Carrying on, assuming your ```md``` output matched ours: It's time to load in the Brocade bootloader to a safe temporary location in RAM. You also need to set a temporary IP for the switch, as well as set the IP of your tftp server destination:  
 
-
+Give the switch a temporary unique IP, as well as the IP of your tftp server:
 ```
-#give the switch a temporary unique IP
 setenv ipaddr 192.168.1.50
-#give it the IP of your tftp server
 setenv serverip 192.168.1.49
-#copy the brocade bootloader to a temp address in RAM
+```
+Now copy the Brocade bootloader to a temporary address in RAM for holding:
+```
 tftpboot 0x100000 brocadeboot.bin
 ```
 
-The tftpboot command should have output like below:
+The tftpboot command should have output similar to the below:
 ```
 => tftpboot 0x100000 brocadeboot.bin
 Enet starting in 1000BT/FD
@@ -77,10 +79,9 @@ Loading: Got error 4
 ####################################
 done
 Bytes transferred = 524288 (80000 hex)
-=>
 ```
 
-If you see Error 4 that's normal, just be sure the bytes transferred matches. Now you need to verify that the temporary address contains the brocade bootloader:
+If you see Error 4 that's normal, just be sure the bytes transferred matches. Now you need to verify that the temporary address contains the Brocade bootloader:
 
 ```
 md 0x100000 20
@@ -98,21 +99,26 @@ The output should match the below exactly:
 00100060: 00000000 00000000 00000000 00000000    ................
 00100070: 00000000 00000000 00000000 00000000    ................
 ```
-If it doesn't match, **STOP**. You can safely reboot back to quanta by typing reset or power cycling it. if you'd like, pastebin the output and get in touch with us on ServeTheHome. If it does match, continue on.
+If it doesn't match, **STOP**. You can safely reboot back to Quanta by typing ```reset``` or power cycling it. If you'd like, pastebin the output and get in touch with us on ServeTheHome. If it does match, continue on.
 
 ##Erasing and replacing the bootloader
 
-You now have the brocade bootloader we need stored in RAM. We need to erase the existing bootloader, then copy the brocade BL from that ram address to the bootloader address. It doesn't need saying that from here on, be incredibly careful, and follow the commands exactly:
+You now have the Brocade bootloader we need stored in RAM. We need to erase the existing bootloader, then copy the Brocade loader from that RAM address to the bootloader address. It doesn't need saying that from here on, be incredibly careful, and follow the commands exactly.  
 
+
+Disable the flash write protection:
 ```
-#disable flash write protection
 protect off all
-#erase the quanta bootloader
+```
+Erase the Quanta bootloader:
+```
 erase 0xfff80000 0xffffffff
-#copy the brocade bootloader
+```
+Copy the Brocade bootloader:
+```
 cp.b 0x100000 0xfff80000 0x80000
 ```
-Congratulations, you've installed the brocade bootloader (which can load the brocade software image). **DO NOT REBOOT YET!** First verify the brocade bootloader is in the bootloader location:
+Congratulations, you've installed the Brocade bootloader (which can now load the Brocade software image). **DO NOT REBOOT YET!** First verify the Brocade bootloader is in the bootloader location:
 
 ```
 md 0xfff80000 20
@@ -131,9 +137,11 @@ fff80060: 00000000 00000000 00000000 00000000    ................
 fff80070: 00000000 00000000 00000000 00000000    ................
 ```
 
-If it matches, continue on to **Booting Brocade** below - the scary part is over. However if it doesn't, stay calm. Does it match the output you got earlier when you ran **md 0xfff80000 20** at the beginning of this guide? If so, that means the Quanta bootloader is still there. Either you didn't properly disable write protection, or something else has gone wrong. You can reboot into quanta like normal, and contact us on the forums. 
+If it matches, continue on to **Booting Brocade** below - the scary part is over. However if it doesn't, stay calm. Does it match the output you got earlier when you ran ```md 0xfff80000 20``` at the beginning of this guide? If so, that means the Quanta bootloader is still there. Either you didn't properly disable write protection, or something else has gone wrong. You can reboot into Quanta like normal, and contact us on the forums. 
 
-However if it matches neither, something has gone very wrong. Be sure you're running the exact commands here, and do the guide again from **tftpboot 0x100000 brocadeboot.bin** and onwards until you get the bootloader where it should be. If you follow the commands, it should work. **Do not reboot or pull power until this is resolved.** If there is not a valid bootloader in that location, it will not boot itself. As a last resort you can try flashing the quanta bootloader back by substituting the uboot.bin in the recovery folder in all the commands mentioning brocadeboot.bin - just use uboot.bin instead. If successful, the output of  **md 0xfff80000 20** should match the example at the beginning of this guide, then you can reboot.
+However if it matches neither, something has failed. We have yet to see this, but just in case you do -  be sure you're running the exact commands here, and do the guide again from ```tftpboot 0x100000 brocadeboot.bin``` and onwards until you get the bootloader where it should be. If you follow the commands, it should work.  
+
+**Do not reboot or pull power until this is resolved.** If there is not a valid bootloader in that location, it will not boot itself. As a last resort you can try flashing the quanta bootloader back by substituting the uboot.bin in the recovery folder in all the commands mentioning brocadeboot.bin - just use uboot.bin instead. If successful, the output of  ```md 0xfff80000 20``` should match the example at the beginning of this guide, then you can reboot.
 
 ##Booting Brocade##
 You now have the Brocade bootloader in the bootloader section of the PowerPC flash. Now we just need to reboot! 
@@ -150,8 +158,9 @@ ip address 192.168.1.50/24
 boot system tftp 192.168.1.49 brocadeimage.bin
 ```
 
-It will now boot into the full brocade firmware, however we still need to actually flash it to the device flash as well as fix flash permissions by re-flashing the bootloader using Brocade's official bootloader flashing routine:  
-give the mgmt interface an address so it can contact your tftp server:
+It will now boot into the full Brocade firmware, however we still need to actually flash it to the device flash as well as fix flash permissions by re-flashing the bootloader using Brocade's official bootloader flashing routine.  
+  
+First give the management interface an address so it can contact your tftp server:
 ```
 enable
 conf t
@@ -160,7 +169,7 @@ ip addr 192.168.1.50/24
 exit
 write mem
 ```
-Reflash the bootloader using Brocade's flash routine to fix permissions, substitute IP's with your tftp server:
+Reflash the bootloader using Brocade's flash routine to fix permissions, substitute the IP with your tftp server:
 ```
 copy tftp flash 192.168.10.49 brocadeboot.bin bootrom
 ```
@@ -173,12 +182,12 @@ If your management IP config from earlier didn't save, you'll need to redo those
 enable
 copy tftp flash 192.168.1.49 brocadeimage.bin primary
 ```
-It now perfectly matches a stock Brocade Turboiron. Reboot and it will come up on it's own like a stock device:
+It now perfectly matches a stock Brocade TurboIron. Reboot and it will come up on it's own like a stock device:
 ```
 reload
 ```
 
-That's it! You can ditch the serial cable and telnet to the management IP. If you want to use SSH, you'll need to enable it (follow the included brocade docs). Some commands to check out your new system:
+That's it! You can ditch the serial cable and telnet to the management IP. If you want to use SSH, you'll need to enable it - follow the included Brocade docs or the Quick Guide on the left. Some commands to check out your new system:
 
 ```
 show version
@@ -193,6 +202,10 @@ This is the full layer 3 image that has all the layer 2 and layer 3 features, so
 ###Thanks:
 [**Jon Sands**](http://fohdeesha.com/)  
 [**Bengt-Erik Norum**](http://amateurfoundation.org/)  
+[**FBOM**](http://fbom.club/)  
 **fvanlint** from STH for being our first method tester
 
+###Contributing:
+The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
+```Documentation version: v1.0 (12-19-17)```
