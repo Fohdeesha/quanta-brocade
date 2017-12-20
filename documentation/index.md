@@ -208,4 +208,4 @@ This is the full layer 3 image that has all the layer 2 and layer 3 features, so
 ###Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version: v1.0 (12-19-17)```
+```Documentation version: v1.1 (12-20-17)```
