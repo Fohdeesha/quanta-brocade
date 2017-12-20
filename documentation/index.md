@@ -5,7 +5,7 @@
 We are not responsible for any damaged devices or property resulting from this guide. This guide assumes you own a legitimate Brocade TurboIron and therefore have rights to the firmware & its use.
 Two things will also change due to hardware differences:
 
-* The Brocade model does not physically have LED lights for the SFP+ ports, so the code has no provison to control them. Therefore flashing this will render your SFP+ status/activity LED lights inactive. The Chassis LEDs and copper port LEDs still work as normal.
+* The SFP+ activity/status LEDs stop doing anything. The copper ports and chassis LEDs continue to work as normal. We believe the Brocade lights use an I2C I/O expander with a different I2C address than that of the Quanta's, or even a different set of I/O on the chipset entirely. Only an aesthetic change, everything else functions as normal.  
 
 * The Brocade only has one Out Of Band management port. Your #2 OOB port will no longer do anything. You'll still have OOB management as usual on mgmt #1, and of course in-band management on all the normal ports.
 
