@@ -18,23 +18,25 @@ Everything can be shortened as long as it doesn't match another command, so the 
 conf t
 ```
 You also have tab completion so if you're ever curious about a command, type it and hit tab, it'll give you a list of all arguments. You can also just hit tab with no text and it'll show you all commands available at the current level.  
+
 Now we need to tell it to start generating our keys, so we can enable SSH:
 ```
 crypto key generate
 ```
 
-give the switch a name/hostname:
+Give the switch a name/hostname:
 
 ```
 hostname blinkenmaschine
 ```
+
 To give the switch an IP that's accessible via the normal ports, we need to a assign a virtual interface to the VLAN you'd like it to be accessible on, and give it an IP.  That virtual interface is configurable just like a normal physical interface. At it's config level you can set jumbo frames, IP addr, etc. This is also how you enable inter-VLAN routing, you just give multiple VLAN's a router interface with an IP like below, and that's it.  
 
 Enter the config level for a vlan:
 ```
  vlan 1
 ```
-assign it a virtual interface. The number doesn't have to match the vlan, you could give it ve 10, but it's easier to keep track of if they match:
+Assign it a virtual interface. The number doesn't have to match the vlan, you could give it ve 10, but it's easier to keep track of if they match:
 ```
 router-interface ve 1
 ```
@@ -47,7 +49,8 @@ exit
 ```
 interface ve 1
 ```
-NOTE: The above command will give you an error if the VLAN it is assigned to has no ports. So if you're setting up VLAN 2 for example, give it a port member while you're at it's config level, and you won't encounter the error.  
+(NOTE: the above command will give you an error if the VLAN it is assigned to has no ports. So if you're setting up VLAN 2 for example, give it a port member while you're at it's config level, and you won't encounter the error.)  
+
 Now we just give that VE interface an IP. Note, addresses for VE's cannot be in the same subnet you've assigned to your out of band management port, for obvious reasons:
 ```
 ip address 192.168.1.2/24
@@ -105,7 +108,7 @@ snmp-server community public ro
 
 ##Default Route & DNS
 
-If you'd like the switch to be able to get out to the internet (For example, NTP or ping commands to external hosts or hostnames), do the following:
+If you'd like the switch to be able to get out to the internet (For example, NTP or ping commands to external hosts or hostnames), do the following, substituting your gateway IP:
 
 ```
 ip dns server-address 192.168.1.1
@@ -133,7 +136,7 @@ write memory
 ```
 That's enough to get you going. Some more useful general commands:
 
-show a table of all interfaces:
+Show a table of all interfaces:
 ```
 show interface brief
 ```
@@ -151,7 +154,7 @@ show interface brief ethernet 1
 exit
 ```
 
-To remove commands from your config, just put no in front of them:
+To remove commands from your config, just put ```no``` in front of them:
 ```
 interface ethernet 1
 no port-name
