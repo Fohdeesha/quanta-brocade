@@ -153,7 +153,6 @@ It will now reboot into the Brocade bootloader. In the Brocade software over ser
 
 Firstly boot the OS image via tftp. You need to first give the bootloader a temporary unique IP, then boot the firmware file using the IP address of your tftp server:
 ```
-
 ip address 192.168.1.50/24
 boot system tftp 192.168.1.49 brocadeimage.bin
 ```
@@ -176,6 +175,12 @@ copy tftp flash 192.168.10.49 brocadeboot.bin bootrom
 Reboot the switch so the new bootloader fixes perms. You won't be able to write to flash until you do this:
 ```
 reload
+```
+
+It will reboot to the bootloader because we still haven't flashed the OS. Just like above, temporarily tftp-boot the OS:
+```
+ip address 192.168.1.50/24
+boot system tftp 192.168.1.49 brocadeimage.bin
 ```
 If your management IP config from earlier didn't save, you'll need to redo those steps to give it an IP again. Now load and write the firmware:
 ```
@@ -208,4 +213,4 @@ This is the full layer 3 image that has all the layer 2 and layer 3 features, so
 ###Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version: v1.1 (12-20-17)```
+```Documentation version: v1.2 (12-21-17)```

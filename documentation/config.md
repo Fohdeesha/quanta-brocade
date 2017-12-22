@@ -143,7 +143,20 @@ show interfaces ethernet 1
 #Also works for virtual interfaces:
 show interfaces ve 1
 ```
+Give a port a friendly name:
+```
+interface ethernet 1
+port-name freenas
+show interface brief ethernet 1
+exit
+```
 
+To remove commands from your config, just put no in front of them:
+```
+interface ethernet 1
+no port-name
+exit
+```
 Show the currently active configuration:
 ```
 show run
