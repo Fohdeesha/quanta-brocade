@@ -182,7 +182,6 @@ These have all been very basic commands and most of them will take many more arg
 ###Thanks:
 [**Jon Sands**](http://fohdeesha.com/)  
 [**Bengt-Erik Norum**](http://amateurfoundation.org/)  
-[**FBOM**](http://fbom.club/)  
 **fvanlint** from STH for being our first method tester
 
 ###Contributing:

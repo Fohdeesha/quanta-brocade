@@ -224,7 +224,6 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ###Thanks:
 [**Jon Sands**](http://fohdeesha.com/)  
 [**Bengt-Erik Norum**](http://amateurfoundation.org/)  
-[**FBOM**](http://fbom.club/)  
 **fvanlint** from STH for being our first method tester
 
 ###Contributing:
