@@ -151,7 +151,12 @@ You now have the Brocade bootloader in the proper section of the PowerPC flash. 
 ```
 reset
 ```
-It will now reboot into the Brocade bootloader. In the Brocade software, over serial or telnet, you need to use shift+backspace to backspace. You can remedy this by changing your Putty/terminal settings to "Control+H" for backspace method under Terminal>Keyboard and backspace won't require shift. Once you get it up and running, you can also configure SSH which uses normal backspaces.  
+It will reboot into the Brocade bootloader which should drop you at a prompt similar to this:
+
+```
+BOOT MONITOR> 
+```
+ In the Brocade software, over serial or telnet, you need to use shift+backspace to backspace. You can remedy this by changing your Putty/terminal settings to "Control+H" for backspace method under Terminal>Keyboard and backspace won't require shift. Once you get it up and running, you can also configure SSH which uses normal backspaces.  
 
 Firstly boot the OS image via tftp. You need to first give the bootloader a temporary unique IP, then boot the firmware file using the IP address of your tftp server:
 ```
@@ -169,12 +174,13 @@ int management 1
 ip addr 192.168.1.50/24
 exit
 write mem
+exit
 ```
 Reflash the bootloader using Brocade's flash routine to fix permissions, substitute the IP with your tftp server:
 ```
-copy tftp flash 192.168.10.49 brocadeboot.bin bootrom
+copy tftp flash 192.168.1.49 brocadeboot.bin bootrom
 ```
-Reboot the switch so the new bootloader fixes perms. You won't be able to write to flash until you do this:
+You should see some dots as it flashes. When it finishes the dots will stop and you'll need to hit enter to return to the prompt. Reboot the switch so the new bootloader fixes perms - you won't be able to write to flash until you do this:
 ```
 reload
 ```
@@ -189,7 +195,7 @@ If your management IP config from earlier didn't save, you'll need to redo those
 enable
 copy tftp flash 192.168.1.49 brocadeimage.bin primary
 ```
-It now perfectly matches a stock Brocade TurboIron. Reboot and it will come up on it's own like a stock device:
+You'll see some dots as it flashes like before, when they stop hit enter to return to the prompt. It now perfectly matches a stock Brocade TurboIron. Reboot and it will come up on it's own like a stock device:
 ```
 reload
 ```
