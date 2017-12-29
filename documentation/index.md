@@ -9,7 +9,9 @@ Two things will also change due to hardware differences:
 
 * The Brocade only has one Out Of Band management port. Your #2 OOB port will no longer do anything. You'll still have OOB management as usual on mgmt #1, and of course in-band management on all the normal ports.
 
-* While it may be possible to flash back to Quanta, we haven't investigated this (the Brocade bootloader does not have the same raw copy commands), so for now assume this is a one way trip. A trip worth taking, we think.
+* While it may be possible to flash back to Quanta, we haven't investigated this (the Brocade bootloader does not have the same raw copy commands), so for now assume this is a one way trip. A trip worth taking, we think.  
+
+If you're looking to purchase an LB6M, we recommend [UnixPlus](https://www.unixplus.com/products/quanta-lb6m-24-port-10gbe-sfp-4x-1gbe-l2-l3-switch) - their stock is all brand new and of known origin.
 ##Prerequisites
 
 This guide assumes you're familiar with the basics like tftp, obtaining a serial console to the device, etc. If you're not, this guide is probably not for you. Before touching your switch, read this document from beginning to end to get a basic idea of what you'll be doing - do **not** skip this step.  
@@ -43,13 +45,13 @@ the output should match this exactly:
 
 ```
 fff80000: 27051956 552d426f 6f742032 3030392e    '..VU-Boot 2009.
-fff80010: 30362028 41707220 31392032 30313120    06 (Apr 19 2011 
-fff80020: 2d203135 3a35373a 30362900 60000000    - 15:57:06)....
-fff80030: 3c20d000 60213f80 38000000 9401fffc    < ..!?.8.......
-fff80040: 9401fffc 9421fff8 3c00ffff 6000fffc    .....!..<......
+fff80010: 30362028 41707220 31392032 30313120    06 (Apr 19 2011
+fff80020: 2d203135 3a35373a 30362900 60000000    - 15:57:06).`...
+fff80030: 3c20d000 60213f80 38000000 9401fffc    < ..`!?.8.......
+fff80040: 9401fffc 9421fff8 3c00ffff 6000fffc    .....!..<...`...
 fff80050: 9421fff8 9001000c 48000005 7dc802a6    .!......H...}...
-fff80060: 800e171c 7dc07214 480020dd 3c600002    ....}.r.H. .<..
-fff80070: 60631200 7c600124 4c00012c 48002065    c..|.$L..,H. e
+fff80060: 800e171c 7dc07214 480020dd 3c600002    ....}.r.H. .<`..
+fff80070: 60631200 7c600124 4c00012c 48002065    `c..|`.$L..,H. e
 ```
 
 If the output on your switch does not match this exactly, **STOP!** Pastebin your switches output and get in touch with us on [ServeTheHome](https://forums.servethehome.com/index.php?threads/turbocharge-your-quanta-lb6m-flash-to-brocade-turboiron.17971/).
