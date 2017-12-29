@@ -1,4 +1,4 @@
-##Getting Started
+## Getting Started
 
 
 Brocade's CLI is nearly 90% identical to Cisco, with the majority of the differences being related to VLAN configuration. This short intro will get you set up with an account, SSH, and an in-band IP for the switch on one VLAN. The Layer 3 firmware comes with all ports in VLAN 1 by default, so if you just need layer 2 switching, you can leave the VLAN/virtual interface config as-is and use the out of band management port to talk to the switch.
@@ -59,7 +59,7 @@ That's it, now anything in that VLAN can access the switch via that IP.  Exit th
 ```
 exit
 ```
-##Inter-VLAN Routing
+## Inter-VLAN Routing
 If you'd like inter-VLAN routing, follow this section. if you don't, skip down to Authentication. To enable VLAN routing you just need to do everytihng we did above, but for another VLAN:
 
 ```
@@ -75,7 +75,7 @@ exit
 They'll now route between each other, assuming your devices have gateways properly set etcetera.
 
 
-##Authentication
+## Authentication
 
 First we need to tell it to use local user accounts for authentication instead of RADIUS etc. Assuming you're still at the ```configure terminal``` level:
 ```
@@ -100,7 +100,7 @@ ip ssh key-authentication no
 ```
 If you do wish to enable key based SSH login, it's beyond the scope of this intro. Refer to the Security Guide PDF included. It has information on all of the above, SSH, etc. 
 
-##SNMP
+## SNMP
 To quickly enable SNMPv2, follow the below. SNMP v3 is available but you'll have to refer to the included documentation:
 ```
 snmp-server community public ro
@@ -115,7 +115,7 @@ ip dns server-address 192.168.1.1
 ip route 0.0.0.0/0 192.168.1.1
 ```
 
-##NTP
+## NTP
 To have the switch keep it's time synced via NTP, use the following. If you live in an area that doesn't use Daylight Savings, skip the ```clock summer-time``` command. Use tab completion for the timezone command to see what's available:
 ```
 clock summer-time
@@ -129,7 +129,7 @@ exit
 You can specify up to 8 or as little NTP servers as you'd like. Only IP addresses are allowed, no hostnames.
 
 
-##Saving & Conclusions
+## Saving & Conclusions
 Now of course none of the changes have actually been saved to flash, so on next boot they'll disappear. To save your current running configuration so they remain on reboot:
 ```
 write memory
@@ -179,10 +179,10 @@ show log
 ```
 These have all been very basic commands and most of them will take many more arguments for advanced configuration. We highly recommend referring to the included documentation to continue further.  
 
-###Thanks:
+### Thanks:
 [**Jon Sands**](http://fohdeesha.com/)  
 [**Bengt-Erik Norum**](http://amateurfoundation.org/)  
 **fvanlint** from STH for being our first method tester
 
-###Contributing:
+### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.
