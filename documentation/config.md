@@ -120,10 +120,8 @@ To have the switch keep it's time synced via NTP, use the following. If you live
 ```
 clock summer-time
 clock timezone gmt GMT-05
-ntp
-disable serve
-server 129.6.15.28
-server 198.60.22.240
+sntp server 10.15.114.131
+sntp server 10.15.114.132
 exit
 ```
 You can specify up to 8 or as little NTP servers as you'd like. Only IP addresses are allowed, no hostnames.
