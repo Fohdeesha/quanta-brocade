@@ -237,4 +237,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ###Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version: v1.4 (12-28-17)```
+```Documentation version: v1.5 (01-03-18)```
