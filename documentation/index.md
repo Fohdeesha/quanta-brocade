@@ -33,7 +33,8 @@ Reboot the switch while watching the serial output, it should prompt you to hit 
 =>
 ```
 
-With all the following commands, copy and paste them *exactly* as you see them.  
+With all the following commands, copy and paste them *exactly* as you see them. Do not try to manually type them. 
+After 50+ successful flashes, we had our first report of a brick. It was from someone trying to manually type each command, and mistaking a "O" for a "0". Copy and paste only!   
 
 Use the memory read command to verify your Quanta bootloader is where it should be - this ensures the commands to follow will use the correct location:
 
@@ -154,7 +155,7 @@ reset
 It will reboot into the Brocade bootloader which should drop you at a prompt similar to this:
 
 ```
-BOOT MONITOR> 
+Monitor>
 ```
  In the Brocade software, over serial or telnet, you need to use shift+backspace to backspace. You can remedy this by changing your Putty/terminal settings to "Control+H" for backspace method under Terminal>Keyboard and backspace won't require shift. Once you get it up and running, you can also configure SSH which uses normal backspaces.  
 
@@ -180,7 +181,7 @@ Reflash the bootloader using Brocade's flash routine to fix permissions, substit
 ```
 copy tftp flash 192.168.1.49 brocadeboot.bin bootrom
 ```
-You should see some dots as it flashes. When it finishes the dots will stop and you'll need to hit enter to return to the prompt. Reboot the switch so the new bootloader fixes perms - you won't be able to write to flash until you do this:
+You should see some dots as it flashes - after they stop moving, wait 30 seconds or so and hit enter to return to the prompt. Reboot the switch so the new bootloader fixes perms - you won't be able to write to flash until you do this:
 ```
 reload
 ```
@@ -237,4 +238,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ###Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version: v1.5 (01-03-18)```
+```Documentation version: v1.6 (01-27-18)```
