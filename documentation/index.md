@@ -20,7 +20,7 @@ The risk of doing this is low and mitigated if you're properly prepared and foll
 
 Firstly grab this [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) - it contains your bootloader, OS, and all the documentation you'll need. We're not promising it will be available here long, so keep it somewhere safe. If you redistribute it, please do not exclude or rename any files (keep it complete).  
 
-Start a tftp server and make sure both ```brocadeboot.bin``` and ```brocadeimage.bin``` are being served by your tftp server.  
+Start a tftp server and make sure both ```brocadeboot.bin``` and ```brocadeimage.bin``` are being served by your tftp server. They can be found in the ```Main Flash``` Folder.  
 
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server, so it can succesfully retrieve them while in u-boot.
 
@@ -144,7 +144,7 @@ If it matches, continue on to **Booting Brocade** below - the risky part is over
 
 However if it matches neither, something has failed. We have yet to see this, but just in case you do -  be sure you're running the exact commands here, and do the guide again from ```tftpboot 0x100000 brocadeboot.bin``` and onwards until you get the bootloader where it should be. If you follow the commands, it should work.  
 
-**Do not reboot or pull power until this is resolved.** If there is not a valid bootloader in that location, it will not boot itself. As a last resort you can try flashing the quanta bootloader back by substituting the uboot.bin in the recovery folder in all the commands mentioning brocadeboot.bin - just use uboot.bin instead. If successful, the output of  ```md 0xfff80000 20``` should match the example at the beginning of this guide, then you can reboot.
+**Do not reboot or pull power until this is resolved.** If there is not a valid bootloader in that location, it will not boot itself. As a last resort you can try flashing the quanta bootloader back by substituting the uboot.bin in the ```Fastpath Revert``` folder in all the commands mentioning brocadeboot.bin - just use uboot.bin instead. If successful, the output of  ```md 0xfff80000 20``` should match the example at the beginning of this guide, then you can reboot.
 
 ##Booting Brocade
 You now have the Brocade bootloader in the proper section of the PowerPC flash. Now we just need to reboot! 
@@ -238,4 +238,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ###Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version: v1.6 (01-27-18)```
+```Documentation version:```[```v1.7 (01-27-18)```](https://github.com/Fohdeesha/quanta-brocade/commits/master)
