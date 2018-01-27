@@ -121,9 +121,9 @@ To have the switch keep it's time synced via NTP, use the following. If you live
 clock summer-time
 clock timezone gmt GMT-05
 sntp server 216.239.35.0
-sntp server 216.239.35.0
+sntp server 216.239.35.4
 ```
-You can specify up to 8 or as little NTP servers as you'd like. Only IP addresses are allowed, no hostnames.
+You can specify up to 8 or as little NTP servers as you'd like. Only IP addresses are allowed, no hostnames. The IP's in the example above are Google's public NTP servers.
 
 
 ## Saving & Conclusions
