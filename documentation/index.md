@@ -5,11 +5,9 @@
 We are not responsible for any damaged devices or property resulting from this guide. This guide assumes you own a legitimate Brocade TurboIron and therefore have rights to the firmware & its use.
 Two things will also change due to hardware differences:
 
-* The SFP+ activity/status LEDs stop doing anything. The copper ports and chassis LEDs continue to work as normal. We believe the Brocade lights use a different I2C I/O expander configuration, or even a different set of I/O on the chipset entirely. Only an aesthetic change, everything else functions as normal.  
+* The SFP+ activity/status LEDs stop doing anything. The copper ports and chassis LEDs continue to work as normal. The Quanta uses a CPLD to multiplex the LED signals, while the brocade uses native CPU I/O. There's no way around this difference.
 
 * The Brocade only has one Out Of Band management port. Your #2 OOB port will no longer do anything. You'll still have OOB management as usual on mgmt #1, and of course in-band management on all the normal ports.
-
-* While it may be possible to flash back to Quanta, we haven't investigated this (the Brocade bootloader does not have the same raw copy commands), so for now assume this is a one way trip. A trip worth taking, we think.  
 
 If you're looking to purchase an LB6M, we recommend [UnixPlus](https://www.unixplus.com/products/quanta-lb6m-24-port-10gbe-sfp-4x-1gbe-l2-l3-switch) - their stock is all brand new and of known origin.
 ##Prerequisites
@@ -20,7 +18,7 @@ The risk of doing this is low and mitigated if you're properly prepared and foll
 
 Firstly grab this [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) - it contains your bootloader, OS, and all the documentation you'll need. We're not promising it will be available here long, so keep it somewhere safe. If you redistribute it, please do not exclude or rename any files (keep it complete).  
 
-Start a tftp server and make sure both ```brocadeboot.bin``` and ```brocadeimage.bin``` are being served by your tftp server. They can be found in the ```Main Flash``` Folder.  
+Start a tftp server and make sure both ```brocadeboot.bin``` and ```brocadeimage.bin``` are being served by it. They can be found in the ```Main Flash``` folder.  
 
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server, so it can succesfully retrieve them while in u-boot.
 
@@ -46,7 +44,7 @@ the output should match this exactly:
 
 ```
 fff80000: 27051956 552d426f 6f742032 3030392e    '..VU-Boot 2009.
-fff80010: 30362028 41707220 31392032 30313120    06 (Apr 19 2011
+fff80010: 30362028 41707220 31392032 30313120    06 (Apr 19 2011 
 fff80020: 2d203135 3a35373a 30362900 60000000    - 15:57:06).`...
 fff80030: 3c20d000 60213f80 38000000 9401fffc    < ..`!?.8.......
 fff80040: 9401fffc 9421fff8 3c00ffff 6000fffc    .....!..<...`...
@@ -238,4 +236,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ###Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v1.7 (01-27-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v1.8 (01-29-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
