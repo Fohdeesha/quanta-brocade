@@ -1,7 +1,7 @@
 
-#Flashing the LB6M to a Brocade TurboIron 24X
+# Flashing the LB6M to a Brocade TurboIron 24X
 
-##Disclaimer & Caveats
+## Disclaimer & Caveats
 We are not responsible for any damaged devices or property resulting from this guide. This guide assumes you own a legitimate Brocade TurboIron and therefore have rights to the firmware & its use.
 Two things will also change due to hardware differences:
 
@@ -10,7 +10,7 @@ Two things will also change due to hardware differences:
 * The Brocade only has one Out Of Band management port. Your #2 OOB port will no longer do anything. You'll still have OOB management as usual on mgmt #1, and of course in-band management on all the normal ports.
 
 If you're looking to purchase an LB6M, we recommend [UnixPlus](https://www.unixplus.com/products/quanta-lb6m-24-port-10gbe-sfp-4x-1gbe-l2-l3-switch) - their stock is all brand new and of known origin.
-##Prerequisites
+## Prerequisites
 
 This guide assumes you're familiar with the basics like tftp, obtaining a serial console to the device, etc. If you're not, this guide is probably not for you. Before touching your switch, read this document from beginning to end to get a basic idea of what you'll be doing - do **not** skip this step.  
 
@@ -23,7 +23,7 @@ Start a tftp server and make sure both ```brocadeboot.bin``` and ```brocadeimage
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server, so it can succesfully retrieve them while in u-boot.
 
 
-##Flash Preparation 
+## Flash Preparation 
 
 Reboot the switch while watching the serial output, it should prompt you to hit any key (do so) to interrupt boot and drop you into the u-boot console, which should look like this:
 
@@ -102,7 +102,7 @@ The output should match the below exactly:
 ```
 If it doesn't match, **STOP**. You can safely reboot back to Quanta by typing ```reset``` or power cycling it. If you'd like, pastebin the output and get in touch with us on ServeTheHome. If it does match, continue on.
 
-##Erasing and replacing the bootloader
+## Erasing and replacing the bootloader
 
 You now have the Brocade bootloader we need stored in RAM. We need to erase the existing bootloader, then copy the Brocade loader from that RAM address to the bootloader address. From here on, be incredibly careful, and follow the commands exactly.  
 
@@ -144,7 +144,7 @@ However if it matches neither, something has failed. We have yet to see this, bu
 
 **Do not reboot or pull power until this is resolved.** If there is not a valid bootloader in that location, it will not boot itself. As a last resort you can try flashing the quanta bootloader back by substituting the uboot.bin in the ```Fastpath Revert``` folder in all the commands mentioning brocadeboot.bin - just use uboot.bin instead. If successful, the output of  ```md 0xfff80000 20``` should match the example at the beginning of this guide, then you can reboot.
 
-##Booting Brocade
+## Booting Brocade
 You now have the Brocade bootloader in the proper section of the PowerPC flash. Now we just need to reboot! 
 
 ```
@@ -211,7 +211,7 @@ show media
 ```
 This is the full layer 3 image that ships with all features enabled, so please follow the included guides in the Documentation folder to configure your new switch. A quick guide is available on the left, but this site is not a substitute for learning Brocade's documentation.
 
-##SFP+ Information
+## SFP+ Information
 
 Brocade does not restrict the use of optics by manufacturer, they'll take anything given it's the right protocol. However optical monitoring information is disabled unless it sees Brocade or Foundry optics.  
 
@@ -228,12 +228,12 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 
 
 
-###Thanks:
+### Thanks:
 [**Jon Sands**](http://fohdeesha.com/)  
 [**Bengt-Erik Norum**](http://amateurfoundation.org/)  
 **fvanlint** from STH for being our first method tester
 
-###Contributing:
+### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
 ```Documentation version:``` [ v1.9 (02-15-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
