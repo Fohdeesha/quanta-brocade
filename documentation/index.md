@@ -16,7 +16,7 @@ This guide assumes you're familiar with the basics like tftp, obtaining a serial
 
 The risk of doing this is low and mitigated if you're properly prepared and follow closely. It's a good idea to have the switch on a UPS while you do this, if you lose power after the ```erase``` command before you've flashed the new bootloader, your device will be bricked (however it can be recovered with a PowerPC capable JTAG unit).  
 
-Firstly grab this [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) - it contains your bootloader, OS, and all the documentation you'll need. We're not promising it will be available here long, so keep it somewhere safe. If you redistribute it, please do not exclude or rename any files (keep it complete).  
+First grab this [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) ```(zip updated: 2-14-2018)``` - it contains your bootloader, OS, and all the documentation you'll need.  
 
 Start a tftp server and make sure both ```brocadeboot.bin``` and ```brocadeimage.bin``` are being served by it. They can be found in the ```Main Flash``` folder.  
 
@@ -236,4 +236,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ###Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v1.8 (01-29-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v1.9 (02-15-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
