@@ -1,8 +1,6 @@
+# Reverting To Stock Fastpath
 
-
-# Reverting To Stock FastPath
-
-## Preparation 
+## Introduction 
 If for some reason after flashing over to Brocade you'd like to flash back to stock, that's now possible. You'll need the [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) ```(zip updated: 2-14-2018)```  - the same one linked on the main flash page.
 
 The zip was recently amended with a new uboot file - you *must* have this version. In the ```Fastpath Revert``` folder there should be a file named ```ubootenv.bin```  - if you have ```uboot.bin``` instead, you have an old copy of the zip.  
@@ -73,7 +71,7 @@ If your output matches, move on to the next section. If it doesn't match, you ca
 
 ## Erasing and replacing the bootloader
 
-You now have the u-boot bootloader stored in RAM, so we need to copy it from that RAM address to the bootloader address. From here on, be incredibly careful, and follow the commands exactly:
+You now have the u-boot bootloader stored in RAM, so we need to copy it from that RAM address to the bootloader address. From here on, be incredibly careful, and follow the commands exactly.
 
 
 Copy u-boot from RAM to the boot sector:
