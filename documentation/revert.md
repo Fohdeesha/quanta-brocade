@@ -1,7 +1,8 @@
+
 # Reverting To Stock Fastpath
 
 ## Introduction 
-If for some reason after flashing over to Brocade you'd like to flash back to stock, that's now possible. You'll need the [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) ```(zip updated: 2-14-2018)```  - the same one linked on the main flash page.
+If for some reason you'd like to flash back to garbage stock fartpath, that's now possible. You'll need the [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) ```(zip updated: 2-14-2018)```  - the same one linked on the main flash page.
 
 The zip was recently amended with a new uboot file - you *must* have this version. In the ```Fastpath Revert``` folder there should be a file named ```ubootenv.bin```  - if you have ```uboot.bin``` instead, you have an old copy of the zip.  
 
@@ -11,9 +12,9 @@ Now that you have the proper contents of the ```Fastpath Revert``` folder (```ub
 
 As we are overwriting the boot sector again, the same warnings still apply. Copy and paste commands only (no typing). Have the device on a UPS if possible. 
 
-Connect to the serial console port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server, so it can succesfully retrieve them while in u-boot.
+Connect to the serial console port of the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server.
 
-Reboot the switch while watching the serial output, it should prompt you to hit the ```b``` key to interrupt boot and drop you into the Brocade boot monitor. Do that, which should take you here: 
+Reboot the switch (```reload``` at the enable CLI level) while watching the serial output - it should prompt you to hit the ```b``` key to interrupt boot. Do so, which should take you here: 
 
 ```
 Monitor>
@@ -38,11 +39,11 @@ fff80030: 4e6ab6ae 07030000 74727a30 37333030
 If the output on your switch does not match this exactly, **STOP!** Pastebin your switches output and get in touch with us on [ServeTheHome](https://forums.servethehome.com/index.php?threads/turbocharge-your-quanta-lb6m-flash-to-brocade-turboiron.17971/).
 
 ## Getting u-boot into RAM
-Carrying on, assuming your output matched ours: It's time to load in the u-boot bootloader and prepare it for flashing. First you'll need to set a temporary IP for the switch - give it a unique IP (it will only be used for this bootloader session):
+Carrying on, assuming your output matched ours: It's time to load in the u-boot bootloader and prepare it for flashing. First you'll need to set a temporary IP for the switch:
 ```
 ip address 192.168.1.50/24
 ```
-Now copy the u-boot bootloader to a file in onboard flash named ```quanta```:
+Now copy the u-boot bootloader to a file in onboard flash named ```quanta``` (substitute the IP with the IP of your tftp server):
 ```
 copy tftp flash 192.168.49 ubootenv.bin quanta
 ```
@@ -71,10 +72,10 @@ If your output matches, move on to the next section. If it doesn't match, you ca
 
 ## Erasing and replacing the bootloader
 
-You now have the u-boot bootloader stored in RAM, so we need to copy it from that RAM address to the bootloader address. From here on, be incredibly careful, and follow the commands exactly.
+You now have u-boot stored in RAM - The last step is to copy it from that RAM address to the bootloader address. From here on, be incredibly careful, and follow the commands exactly.
 
 
-Copy u-boot from RAM to the boot sector:
+Copy u-boot from RAM to the boot sector. This single command handles erasing and writing flash properly:
 ```
 copy memory boot 08000000 524288
 ```
@@ -109,7 +110,7 @@ fffffffc: 4bfff004 xxxxxxxx xxxxxxxx xxxxxxxx
 0000002c: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
 ```
 
-If it matches, skip on to **Booting Quanta** below - the risky part is over. However if it doesn't match, don't panic. You either entered a command wrong, or skipped one. Do not reboot yet! To recover the original brocade bootloader back, run the below command:
+If it matches, skip on to **Booting Quanta** below - the risky part is over. However if it doesn't match, don't panic. You either entered a command wrong, or skipped one. Do not reboot yet! To recover the original Brocade bootloader back, run the below command:
 
 ```
 #for recovery only!
@@ -121,19 +122,19 @@ After that command finishes you can reboot into the bootloader again and try onc
 
 
 ## Booting Quanta
-You now have u-boot in the proper section of the PowerPC flash. Now we just need to reboot! The "reset" command in Brocade's bootloader is bugged (will just freeze), so to make it reboot you must pull power to the switch, then re-apply. It should boot up to a u-boot prompt:
+You now have u-boot in the proper section of flash - we just need to reboot. The "reset" command in Brocade's bootloader is bugged (will just freeze), so to make it reboot you must pull power to the switch, then re-apply. It should boot up to a u-boot prompt:
 
 ```
 =>
 ```
-Now we must set the MAC address for fastpath. Your chassis MAC should be on a sticker on the side of the unit generally, or you can [generate a random MAC.](https://www.miniwebtool.com/mac-address-generator/)  Either way, replace the MAC in the command below with your target MAC, making sure to adhere to the same formatting:
+Now we must set the MAC address for u-boot and Fastpath. Your chassis MAC should be on a sticker on the side of the unit generally, or you can [generate a random MAC.](https://www.miniwebtool.com/mac-address-generator/)  Either way, replace the MAC in the command below with your target MAC, making sure to adhere to the same formatting:
 
 ```
 setenv ethaddr 54:AB:3A:42:0B:42
 saveenv
 reset
 ```
-After it reboots back into u-boot, we can now boot fastpath in order to flash it. We need to set our temporary IP address plus the IP of our tftp server, then pull the image and boot it:
+After it reboots back into u-boot, we can now boot Fastpath in order to flash it. First we need to set our temporary IP address plus the IP of our tftp server, then pull the image and boot it:
 
 ```
 setenv ipaddr 192.168.1.50
@@ -161,7 +162,7 @@ FASTPATH Startup -- Utility Menu
 12  - Delete Manufacturing Diagnostics
 13  - Reboot
 ```
-Select option 2, and follow its instructions. For transfer mode enter ```T``` for tftp, then fill out the IP's as it asks, as well as our image filename:
+Select ```option 2``` and follow its instructions. For transfer mode enter ```T``` for tftp, then fill out the IP's as it asks, as well as our image filename. You can leave ```gateway``` and ```subnet mask``` blank assuming your tftp server is on the same /24 network:
 
 ```
 Select Mode of Transfer (Press T/X/Y/Z for TFTP/XMODEM/YMODEM/ZMODEM) []:t
@@ -172,9 +173,9 @@ Enter Gateway IP []:
 Enter Filename []:lb6m.1.2.0.18.img
 Do you want to continue? Press(Y/N):  y
 ```
-It will flash the image then ask to reboot - hit yes. It should reboot as normal all the way into the Fastpath software it was originally shipped with, and you're done! If you forgot, the default fastpath login is ```admin``` with no password.  
+It will flash the image then ask to reboot - hit yes. It should reboot as normal all the way into the Fastpath software it was originally shipped with, and you're done. If you forgot, the default fastpath login is ```admin``` with no password.  
 
-If you're worried about "wearing out" the onboard flash by flashing back and forth, the write cycle lifetime for the onboard flash IC is 100,000 complete erase-write cycles, so it's a non-issue.   
+If you're worried about "wearing out" the onboard flash by flashing back and forth, it's a non-issue. As you can see in the [S29GL256P datasheet](http://brokeaid.com/files/flashdata.pdf), the onboard flash IC is good for 100,000 erase-write cycles per sector. 
 
 
 ### Thanks:
