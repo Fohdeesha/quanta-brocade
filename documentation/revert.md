@@ -173,6 +173,7 @@ Enter Filename []:lb6m.1.2.0.18.img
 Do you want to continue? Press(Y/N):  y
 ```
 It will flash the image then ask to reboot - hit yes. It should reboot as normal all the way into the Fastpath software it was originally shipped with, and you're done! If you forgot, the default fastpath login is ```admin``` with no password.
+If you're worried about "wearing out" the onboard flash by flashing back and forth, the write cycle lifetime for the onboard flash IC is 100,000 complete erase-write cycles, so it's a non-issue.   
 
 
 ### Thanks:
