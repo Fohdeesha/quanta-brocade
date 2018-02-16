@@ -5,7 +5,7 @@
 We are not responsible for any damaged devices or property resulting from this guide. This guide assumes you own a legitimate Brocade TurboIron and therefore have rights to the firmware & its use.
 Two things will also change due to hardware differences:
 
-* The SFP+ activity/status LEDs stop doing anything. The copper ports and chassis LEDs continue to work as normal. The Quanta uses a CPLD to multiplex the LED signals, while the brocade uses native CPU I/O. There's no way around this difference.
+* The SFP+ activity/status LEDs stop doing anything. The copper ports and chassis LEDs continue to work as normal. The Quanta uses a CPLD to multiplex the LED signals, while the Brocade uses native CPU I/O. There's no way around this difference.
 
 * The Brocade only has one Out Of Band management port. Your #2 OOB port will no longer do anything. You'll still have OOB management as usual on mgmt #1, and of course in-band management on all the normal ports.
 
@@ -14,13 +14,13 @@ If you're looking to purchase an LB6M, we recommend [UnixPlus](https://www.unixp
 
 This guide assumes you're familiar with the basics like tftp, obtaining a serial console to the device, etc. If you're not, this guide is probably not for you. Before touching your switch, read this document from beginning to end to get a basic idea of what you'll be doing - do **not** skip this step.  
 
-The risk of doing this is low and mitigated if you're properly prepared and follow closely. It's a good idea to have the switch on a UPS while you do this, if you lose power after the ```erase``` command before you've flashed the new bootloader, your device will be bricked (however it can be recovered with a PowerPC capable JTAG unit).  
+The risk of doing this is mitigated if you're properly prepared and follow closely. It's a good idea to have the switch on a UPS while you do this, if you lose power after the ```erase``` command before you've flashed the new bootloader, your device will be bricked (however it can be recovered with a PowerPC capable JTAG unit).  
 
 First grab this [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) ```(zip updated: 2-14-2018)``` - it contains your bootloader, OS, and all the documentation you'll need.  
 
 Start a tftp server and make sure both ```brocadeboot.bin``` and ```brocadeimage.bin``` are being served by it. They can be found in the ```Main Flash``` folder.  
 
-Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server, so it can succesfully retrieve them while in u-boot.
+Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server.
 
 
 ## Flash Preparation 
@@ -57,7 +57,6 @@ If the output on your switch does not match this exactly, **STOP!** Pastebin you
 
 Carrying on, assuming your ```md``` output matched ours: It's time to load in the Brocade bootloader to a safe temporary location in RAM. You also need to set a temporary IP for the switch, as well as set the IP of your tftp server destination:  
 
-Give the switch a unique IP (it will only be used for this bootloader session), as well as the IP of your tftp server:
 ```
 setenv ipaddr 192.168.1.50
 setenv serverip 192.168.1.49
@@ -155,7 +154,7 @@ It will reboot into the Brocade bootloader which should drop you at a prompt sim
 ```
 Monitor>
 ```
- In the Brocade software, over serial or telnet, you need to use shift+backspace to backspace. You can remedy this by changing your Putty/terminal settings to "Control+H" for backspace method under Terminal>Keyboard and backspace won't require shift. Once you get it up and running, you can also configure SSH which uses normal backspaces.  
+ In the Brocade software, over serial or telnet, you need to use shift+backspace to backspace. You can remedy this by changing your Putty/terminal settings to "Control+H" for backspace method under Terminal>Keyboard and backspace won't require shift.  
 
 Firstly boot the OS image via tftp. You need to first give the bootloader a temporary unique IP, then boot the firmware file using the IP address of your tftp server:
 ```

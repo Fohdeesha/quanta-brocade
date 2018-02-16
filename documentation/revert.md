@@ -45,7 +45,7 @@ ip address 192.168.1.50/24
 ```
 Now copy the u-boot bootloader to a file in onboard flash named ```quanta``` (substitute the IP with the IP of your tftp server):
 ```
-copy tftp flash 192.168.49 ubootenv.bin quanta
+copy tftp flash 192.168.1.49 ubootenv.bin quanta
 ```
 
 After some dots it should say ```Done```. You now have u-boot stored in onboard flash. Now we need to copy it to RAM, then to the final boot sector.
