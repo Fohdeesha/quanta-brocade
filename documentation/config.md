@@ -1,7 +1,8 @@
+
 ## Getting Started
 
 
-Brocade's CLI is nearly 90% identical to Cisco, with the majority of the differences being related to VLAN configuration. This short intro will get you set up with an account, SSH, and an in-band IP for the switch on one VLAN. The Layer 3 firmware comes with all ports in VLAN 1 by default, so if you just need layer 2 switching, you can leave the VLAN/virtual interface config as-is and use the out of band management port to talk to the switch.
+Brocade's CLI is 80% identical to Cisco, with the majority of the differences being related to VLAN configuration. This short intro will get you set up with an account, SSH, and an IP for the switch. The Layer 3 firmware comes with all ports in VLAN 1 by default, so if you just need layer 2 switching, you can leave the VLAN/virtual interface config as-is and use the out of band management port to talk to the switch.
 
 
 To enter the enable level:
@@ -30,7 +31,21 @@ Give the switch a name/hostname:
 hostname blinkenmaschine
 ```
 
-To give the switch an IP that's accessible via the normal ports, we need to a assign a virtual interface to the VLAN you'd like it to be accessible on, and give it an IP.  That virtual interface is configurable just like a normal physical interface. At it's config level you can set jumbo frames, IP addr, etc. This is also how you enable inter-VLAN routing, you just give multiple VLAN's a router interface with an IP like below, and that's it.  
+## Assigning an out-of-band management IP
+
+If you plan on using the OOB management port to talk to the switch, follow this section. If you'd rather use an in-band management IP on your VLANs, skip this section. Assuming you're still at the ```configure terminal``` level from before, run the following, replacing the IP with your own choice:
+
+```
+int management 1
+ip addr 192.168.1.50/24
+exit
+```
+You can now telnet/SSH to that IP over the OOB management port.
+
+## Assigning an in-band management IP + VLAN VE Config
+You can also assign an IP to one of the VLANs, so the switch is accessible from the normal ports. You don't have to choose one or the other, you can have in-band and out-of-band management both configured simultaneously, but the IP's will need to be on different subnets.  
+
+To give the switch an IP that's accessible via the normal ports, we need to a assign a virtual interface to the VLAN you'd like it to be accessible on, and give it an IP.  That virtual interface is configurable just like a normal physical interface. At it's config level you can set routing protocols, IP addr, etc. This is also how you enable inter-VLAN routing, you just give multiple VLAN's a router interface with an IP like below, and that's it.  
 
 Enter the config level for a vlan:
 ```
