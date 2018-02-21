@@ -202,7 +202,7 @@ conf t
 fan-speed 1
 write memory
 ```
-Take a look at the output of ```show chassis``` and make sure your temperatures are below the indicated warning level. For 90% of environments, ```fan-speed 1``` will still keep it plenty cool. 
+Take a look at the output of ```show chassis``` and make sure your temperatures are below the indicated warning level. For 90% of environments, ```fan-speed 1``` will still keep it plenty cool.  
 If you'd like to get more advanced, there's also the ```fan-threshold``` command, which allows you to customize the temperature thresholds for each fan level, instead of locking it to one speed - but that's beyond this guide. 
 
 ## SFP+ Information
