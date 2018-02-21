@@ -1,4 +1,5 @@
 
+
 # Reverting To Stock Fastpath
 
 ## Introduction 
@@ -110,13 +111,13 @@ fffffffc: 4bfff004 xxxxxxxx xxxxxxxx xxxxxxxx
 0000002c: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
 ```
 
-If it matches, skip on to **Booting Quanta** below - the risky part is over. However if it doesn't match, don't panic. You either entered a command wrong, or skipped one. Do not reboot yet! To recover the original Brocade bootloader back, run the below command:
+If it matches, skip on to **Booting Quanta** below - the risky part is over. However if it doesn't match, don't panic. You either entered a command wrong, or skipped one. Do not reboot yet! To recover the original Brocade bootloader back, run the below command. You'll need to make sure brocadeboot.bin from the zip is on your tftp server:
 
 ```
 #for recovery only!
 copy tftp flash 192.168.1.49 brocadeboot.bin boot
 ```
-After that command finishes you can reboot into the bootloader again and try once more.
+If that command finishes succesfully, you can reboot into the bootloader again and try once more.
 
 
 

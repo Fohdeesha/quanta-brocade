@@ -1,4 +1,5 @@
 
+
 # Flashing the LB6M to a Brocade TurboIron 24X
 
 ## Disclaimer & Caveats
@@ -156,49 +157,28 @@ Monitor>
 ```
  In the Brocade software, over serial or telnet, you need to use shift+backspace to backspace. You can remedy this by changing your Putty/terminal settings to "Control+H" for backspace method under Terminal>Keyboard and backspace won't require shift.  
 
-Firstly boot the OS image via tftp. You need to first give the bootloader a temporary unique IP, then boot the firmware file using the IP address of your tftp server:
+First we need to give the bootloader a temporary IP, then reflash the bootloader using Brocade's flash routine. This fixes the boot sector flash permissions:
 ```
 ip address 192.168.1.50/24
-boot system tftp 192.168.1.49 brocadeimage.bin
+copy tftp flash 192.168.1.49 brocadeboot.bin boot
 ```
-
-It will now boot into the full Brocade firmware, however we still need to actually flash it to the device flash as well as fix flash permissions by re-flashing the bootloader using Brocade's official flashing routine.  
-  
-First give the management interface an address so it can contact your tftp server:
+After a few seconds it should complete the flashing process. Now that the boot sector matches stock, we can flash the main OS:
 ```
-enable
-conf t
-int management 1
-ip addr 192.168.1.50/24
-exit
-write mem
-exit
-```
-Reflash the bootloader using Brocade's flash routine to fix permissions, substitute the IP with your tftp server:
-```
-copy tftp flash 192.168.1.49 brocadeboot.bin bootrom
-```
-You should see some dots as it flashes - after they stop moving, wait 30 seconds or so and hit enter to return to the prompt. Reboot the switch so the new bootloader fixes perms - you won't be able to write to flash until you do this:
-```
-reload
-```
-
-It will reboot to the bootloader because we still haven't flashed the OS. Just like above, temporarily tftp-boot the OS:
-```
-ip address 192.168.1.50/24
-boot system tftp 192.168.1.49 brocadeimage.bin
-```
-If your management IP config from earlier didn't save, you'll need to redo those steps to give it an IP again. Now load and write the firmware:
-```
-enable
 copy tftp flash 192.168.1.49 brocadeimage.bin primary
 ```
-You'll see some dots as it flashes like before, when they stop hit enter to return to the prompt. It now perfectly matches a stock Brocade TurboIron. Reboot and it will come up on it's own like a stock device:
+
+Your switch is now fully flashed to Brocade. To boot into the OS for the first time run the following:
 ```
-reload
+boot system flash primary
 ```
 
-That's it! This first official boot will take a few minutes as it copies the primary image to the backup secondary image partition. You can ditch the serial cable and telnet to the management IP. If you want to use SSH, you'll need to enable it - follow the included Brocade docs or the Quick Guide on the left.  
+That's it! This first official boot will take a few minutes as it copies the primary image to the backup secondary image partition. The bootloader still has not been re-run since we reflashed it using Brocade's routine, so it's a good idea to make that happen by reloading the switch once it finishes booting:
+
+```
+enable
+reload
+```
+The switch will completely reboot, re-initializing the brocade bootloader, and you're ready to go. To ditch the serial cable and telnet/SSH to the switch, follow the [L3 Quick Guide](http://brokeaid.com/config/) on this site to give it an IP.
 
 Some commands to check out your new system:
 
@@ -209,6 +189,21 @@ show chassis
 show media
 ```
 This is the full layer 3 image that ships with all features enabled, so please follow the included guides in the Documentation folder to configure your new switch. A quick guide is available on the left, but this site is not a substitute for learning Brocade's documentation.
+
+## Fixing The MAC Address
+
+Flashing the switch resets the base MAC address to a default of 00e0.5200.0100 - on it's own this isn't a problem, but if you connect multiple flashed switches they're all going to have the same base MAC, and you're going to have serious collision issues. We highly recommend taking the extra 2 minutes to follow the [MAC Reset Guide](http://brokeaid.com/mac/) - it also allows you to customize the serial number you see in the output of ```show version```.
+
+## Fan Speeds
+The Brocade firmware has the ability to set fan speeds and quiet it down. [This video](https://www.youtube.com/watch?v=QbMITnNv2FM) shows the audible difference. The OS has 3 fan speeds it automatically cycles through as temperature rises and falls. To bypass this and lock the fan speeds at the lowest level, run the below once the switch has booted into the OS:
+```
+enable
+conf t
+fan-speed 1
+write memory
+```
+Take a look at the output of ```show chassis``` and make sure your temperatures are below the indicated warning level. For 90% of environments, ```fan-speed 1``` will still keep it plenty cool. 
+If you'd like to get more advanced, there's also the ```fan-threshold``` command, which allows you to customize the temperature thresholds for each fan level, instead of locking it to one speed - but that's beyond this guide. 
 
 ## SFP+ Information
 
@@ -226,7 +221,6 @@ telnet@Route2(config)#sh optic 5
 You'll need to pick up some official Brocade or Foundry optics on ebay, or buy some flashed optics from FiberStore.
 
 
-
 ### Thanks:
 [**Jon Sands**](http://fohdeesha.com/)  
 [**Bengt-Erik Norum**](http://amateurfoundation.org/)  
@@ -235,4 +229,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v2.0 (02-15-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v2.1 (02-21-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
