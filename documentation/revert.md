@@ -3,17 +3,15 @@
 # Reverting To Stock Fastpath
 
 ## Introduction 
-If for some reason you'd like to flash back to garbage stock fartpath, that's now possible. You'll need the [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) ```(zip updated: 2-14-2018)```  - the same one linked on the main flash page.
+If you'd like to flash back to garbage stock Fartpath, that's now possible. You'll need the firmware ZIP linked on the main page. This guide can also be used to flash the Fastpath OS to an actual Brocade TurboIron, if you wanted to do that for some ungodly reason.  
 
-The zip was recently amended with a new uboot file - you *must* have this version. In the ```Fastpath Revert``` folder there should be a file named ```ubootenv.bin```  - if you have ```uboot.bin``` instead, you have an old copy of the zip.  
-
-Now that you have the proper contents of the ```Fastpath Revert``` folder (```ubootenv.bin``` and ```lb6m.1.2.0.18.img```) we can begin - copy those two files onto your TFTP server.
+In the ```Fastpath Revert``` folder, copy both ```ubootenv.bin``` and ```lb6m.1.2.0.18.img``` to your TFTP server. If you don't see a ```ubootenv.bin``` but instead have ```uboot.bin```, you have an old version of the ZIP. Delete it and re-download. 
 
 ## Preparing U-Boot
 
 As we are overwriting the boot sector again, the same warnings still apply. Copy and paste commands only (no typing). Have the device on a UPS if possible. 
 
-Connect to the serial console port of the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server.
+Connect to the serial console port of the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your TFTP server.
 
 Reboot the switch (```reload``` at the enable CLI level) while watching the serial output - it should prompt you to hit the ```b``` key to interrupt boot. Do so, which should take you here: 
 
@@ -44,7 +42,7 @@ Carrying on, assuming your output matched ours: It's time to load in the u-boot 
 ```
 ip address 192.168.1.50/24
 ```
-Now copy the u-boot bootloader to a file in onboard flash named ```quanta``` (substitute the IP with the IP of your tftp server):
+Now copy the u-boot bootloader to a file in onboard flash named ```quanta``` (substitute the IP with the IP of your TFTP server):
 ```
 copy tftp flash 192.168.1.49 ubootenv.bin quanta
 ```
@@ -73,7 +71,7 @@ If your output matches, move on to the next section. If it doesn't match, you ca
 
 ## Erasing and replacing the bootloader
 
-You now have u-boot stored in RAM - The last step is to copy it from that RAM address to the bootloader address. From here on, be incredibly careful, and follow the commands exactly.
+You now have u-boot stored in RAM - The last step is to copy it from that RAM address to the bootloader address. From here on be incredibly careful, and follow the commands exactly.
 
 
 Copy u-boot from RAM to the boot sector. This single command handles erasing and writing flash properly:
@@ -111,7 +109,7 @@ fffffffc: 4bfff004 xxxxxxxx xxxxxxxx xxxxxxxx
 0000002c: xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
 ```
 
-If it matches, skip on to **Booting Quanta** below - the risky part is over. However if it doesn't match, don't panic. You either entered a command wrong, or skipped one. Do not reboot yet! To recover the original Brocade bootloader back, run the below command. You'll need to make sure brocadeboot.bin from the zip is on your tftp server:
+If it matches, skip on to **Booting Quanta** below - the risky part is over. However if it doesn't match, don't panic. You either entered a command wrong, or skipped one. Do not reboot yet! To recover the original Brocade bootloader back, run the below command. You'll need to make sure brocadeboot.bin from the zip is on your TFTP server:
 
 ```
 #for recovery only!
@@ -123,7 +121,7 @@ If that command finishes succesfully, you can reboot into the bootloader again a
 
 
 ## Booting Quanta
-You now have u-boot in the proper section of flash - we just need to reboot. The "reset" command in Brocade's bootloader is bugged (will just freeze), so to make it reboot you must pull power to the switch, then re-apply. It should boot up to a u-boot prompt:
+You now have u-boot in the proper section of flash - we just need to reboot. The "reset" command in Brocade's bootloader is bugged (it will just freeze), so to make it reboot you must pull power to the switch, then re-apply. It should boot up to a u-boot prompt:
 
 ```
 =>
