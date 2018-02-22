@@ -75,7 +75,7 @@ That's it, now anything in that VLAN can access the switch via that IP.  Exit th
 exit
 ```
 ## Inter-VLAN Routing
-If you'd like inter-VLAN routing, follow this section. if you don't, skip down to Authentication. To enable VLAN routing you just need to do everytihng we did above, but for another VLAN:
+If you'd like inter-VLAN routing, follow this section. if you don't, skip down to Authentication. To enable VLAN routing you just need to do everything we did above, but for another VLAN:
 
 ```
 vlan 2
