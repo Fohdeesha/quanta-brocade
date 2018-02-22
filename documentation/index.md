@@ -1,6 +1,7 @@
 
 
 
+
 # Flashing the LB6M to a Brocade TurboIron 24X
 
 ## Disclaimer & Caveats
@@ -195,7 +196,7 @@ This is the full layer 3 image that ships with all features enabled, so please f
 
 ## Fixing The MAC Address
 
-Flashing the switch resets the base MAC address to a default of 00e0.5200.0100 - on it's own this isn't a problem, but if you connect multiple flashed switches they're all going to have the same base MAC, and you're going to have serious collision issues. We highly recommend taking the extra 2 minutes to follow the [MAC Reset Guide](http://brokeaid.com/mac/) - it also allows you to customize the serial number you see in the output of ```show version```.
+Flashing the switch resets the base MAC address to a default 00e0.5200.0100 - on its own this isn't a problem, but if you connect multiple flashed switches you're going to have serious collision issues. We highly recommend taking the extra minute to follow the [MAC Reset Guide](http://brokeaid.com/mac/).
 
 ## Fan Speeds
 The Brocade firmware has the ability to set fan speeds and quiet it down. [This video](https://www.youtube.com/watch?v=QbMITnNv2FM) shows the audible difference. The OS has 3 fan speeds it automatically cycles through as temperature rises and falls. To bypass this and lock the fan speeds at the lowest level, run the below once the switch has booted into the OS:
@@ -233,4 +234,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v2.2 (02-21-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v2.3 (02-21-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
