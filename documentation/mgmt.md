@@ -1,7 +1,9 @@
 # Management Port Behavior
 
 ## What Happens
-The out of band management port is gigabit PHY - however for some users, after flashing the Brocade firmware it will instead start linking up at 100mbit. In even rarer cases, some users have seen it link at 10mbit. In all of these cases it continues to operate fine as it's only passing management traffic. In some extremely rare cases (observed on 2 chassis), it will refuse to link at all. You can obviously still use in-band management IP's to access the switch, or even designate another switch port in its own isolated VLAN as a management-only port via ACLs. 
+The out of band management port is gigabit PHY - however for some users, after flashing the Brocade firmware it will instead start linking up at 100mbit. In even rarer cases, some users have seen it link at 10mbit. In all of these cases it continues to operate fine as it's only passing management traffic. In some extremely rare cases (observed on 2 chassis), it will refuse to link at all.  
+
+You can obviously still use in-band management IP's to access the switch, or even designate another switch port in its own isolated VLAN as a management-only port via ACLs. 
 
 ## Why It Happens
 It's hard to say with 100% certainty without using an oscilloscope on the various clocks and data lines for the management PHY, and comparing scoped values to values seen while running Fastpath (when the port works properly). What is most likely happening is the Brocade firmware tells the management CPU to use slightly different clock speed values to drive the management PHY, as the traces from the management CPU to the management PHY are shorter in the Brocade.  
