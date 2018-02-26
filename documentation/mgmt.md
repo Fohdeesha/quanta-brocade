@@ -10,7 +10,7 @@ It's hard to say with 100% certainty without using an oscilloscope on the variou
 
 It's also possible the pre-emphasis configuration registers on the SGMII data transmitter were tuned for the trace layout and length of the Brocade chassis, and are therefore slightly out of spec when that configuration is loaded via the Brocade software in the Quanta chassis.  
 
-Sadly neither of these are fixable without disassembling the bootloader (the Brocade bootloader is what's responsible for initializing the PHY, and also remains running at all times and acts as a scheduler for the main OS). Once you find these configuration values in the disassembled bootloader they can be changed to appropriate values for the Quanta chassis and re-compiled. I received an estimate from a firmware engineer of approximately $2000 USD for this amount of reverse engineering, which I'm not willing to spend for a management port I never use on a $300 switch.
+Sadly neither of these are fixable without disassembling the bootloader (the Brocade bootloader is what's responsible for initializing the PHY. It also remains running at all times acting as a scheduler for the main OS). Once you find these configuration values in the disassembled bootloader they can be changed to appropriate values for the Quanta chassis and re-compiled. I received an estimate from a firmware engineer of approximately $2000 USD for this amount of reverse engineering, which I'm not willing to spend for a management port I never use on a $300 switch.
 
 ## Emergency Workaround
 As it's entirely a software issue (the port goes right back to working perfectly when reverting to Fastpath software), it can be forced to link in emergency situations with a temporary software trick.
