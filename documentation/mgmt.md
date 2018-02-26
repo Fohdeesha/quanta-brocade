@@ -13,7 +13,7 @@ It's also possible the pre-emphasis configuration registers on the SGMII data tr
 Sadly neither of these are fixable without disassembling the bootloader (the Brocade bootloader is what's responsible for initializing the PHY. It also remains running at all times acting as a scheduler for the main OS). Once you find these configuration values in the disassembled bootloader they can be changed to appropriate values for the Quanta chassis and re-compiled. I received an estimate from a firmware engineer of approximately $2000 USD for this amount of reverse engineering, which I'm not willing to spend for a management port I never use on a $300 switch.
 
 ## Emergency Workaround
-As it's entirely a software issue (the port goes right back to working perfectly when reverting to Fastpath software), it can be forced to link in emergency situations with a temporary software trick.
+If you're in the 1% where it stops linking completely under the Brocade firmware, you can temporarily bring it back. As it's entirely a software issue (the port goes right back to working perfectly when reverting to Fastpath software), it can be forced to link in emergency situations with a temporary software trick.
 
 If you find yourself in a situation where you must have the management port link up and it won't, follow the below. To reiterate, we've only seen it completely cease linking twice in a hundred flashed chassis.  
 
