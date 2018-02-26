@@ -15,7 +15,7 @@ If you know of any other switch pairs that are the same underlying hardware and 
 We're mainly seeking firmware candidates for the LB4M - so far we can't find any other switches with the same hardware configuration. We need to find a switch that uses a MPC8541 management CPU + BCM56514 ASIC.
 
 ## Why is Fastpath so quirky?
-Fastpath is a [Broadcom software product](https://www.broadcom.com/products/ethernet-connectivity/software/fastpath), and the Fastpath image that comes with our switches is closer to a demo version than a full build.  
+Fastpath is a [Broadcom software product](https://www.broadcom.com/products/ethernet-connectivity/software/fastpath), and the Fastpath image that comes with our switches is closer to a demo version than a full build. That's why simple things like 1gbE SFP's don't work, even though the ASIC supports them.  
 
 When Quanta built a BCM56820 reference box, they included a barebones Fastpath build. The intent was that large customers (Microsoft & Amazon) would replace it with their own OS, or their own Fastpath builds with the exact featureset needed for their environment -  which they did. This means there's custom LB6M firmware packages floating around internally, but the chances we'll ever see them is slim to none.  
 

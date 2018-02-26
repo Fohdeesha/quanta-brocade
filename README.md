@@ -20,4 +20,4 @@ A. When Broadcom introduced the BCM56820 switch ASIC, they released a reference 
  
  Because of this, firmware written for one platform will have no issue running on the other - it's the same hardware.
  
-Open to PR's! If you know of any other switch pairs that are the same underlying hardware and would like to cross-flash, let us know! We're mainly seeking firmware candidates for the LB4M - so far we can't find any other switches with the same hardware configuration. We need to find a switch that uses a MPC8541 management CPU + BCM56514 ASIC)
+Open to PR's! If you know of any other switch pairs that are the same underlying hardware and would like to cross-flash, let us know! We're mainly seeking firmware candidates for the LB4M - so far we can't find any other switches with the same hardware configuration. We need to find a switch that uses a MPC8541 management CPU + BCM56514 ASIC

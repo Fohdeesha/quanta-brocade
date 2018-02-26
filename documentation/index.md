@@ -2,6 +2,7 @@
 
 
 
+
 # Flashing the LB6M to a Brocade TurboIron 24X
 
 ## Disclaimer & Caveats
@@ -11,8 +12,8 @@ Two things will also change due to hardware differences:
 * The SFP+ port activity/status LEDs stop doing anything. The copper ports and chassis LEDs continue to work as normal. The Quanta uses a CPLD to multiplex the LED signals, while the Brocade uses native CPU I/O. There's no way around this difference.
 
 * The Brocade only has one Out Of Band management port, so the code is only aware of the #1 OOB port. The #2 management port will no longer do anything. 
-* The Brocade code seems to also use a different clock or MII registers to configure the management port PHY (since it only expects one), which results in the management port not linking up at full speed for some.  
-For some it links up at 100mbps and works fine, for others, only 10mbps. In rare cases it will refuse to link up at all. You still have management access on all other ports as usual if you configure in-band management access. If your management port refuses to link up, and you need it to TFTP firmware (or other emergency), [it can be forced to link](http://brokeaid.com/mgmt/). To reiterate, this only effects the out of band management port.
+* Due to a software configuration difference, the out of band management port may link at slower speeds than it did under Fastpath (eg at 100mbit). In one case, we saw it stop linking altogether. For more information, please [click here](http://brokeaid.com/mgmt/). To reiterate, this only affects the management port for OOB telnet/ssh. It does not affect switched/routed traffic, and you can configure other switch ports to be used for isolated management via ACLs if you really need something other than in-band management. That said, 99% of peoples management port continues to work fine.
+* If you don't like the Brocade OS, or have other issues, you can always flash back to 100% stock Fastpath using the Revert guide to the left, so none of this is permanent.  
 
 If you're looking to purchase an LB6M, we recommend [UnixPlus](https://www.unixplus.com/products/quanta-lb6m-24-port-10gbe-sfp-4x-1gbe-l2-l3-switch) - their stock is all brand new and of known origin.
 ## Prerequisites
