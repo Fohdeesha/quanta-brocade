@@ -1,4 +1,5 @@
 
+
 ## Getting Started
 
 
@@ -190,6 +191,8 @@ show version
 show log
 ```
 These have all been very basic commands and most of them will take many more arguments for advanced configuration. We highly recommend referring to the included documentation to continue further.  
+
+We also highly recommend Terry Henry's [youtube channel](https://www.youtube.com/user/terryalanhenry/videos). He's an engineer at Brocade and has hundreds of short, concise videos on how to do anything you can think of in the OS. Some of the newer videos might not apply to our TurboIron codebase, but 90% of them will.  
 
 ### Thanks:
 [**Jon Sands**](http://fohdeesha.com/)  
