@@ -3,6 +3,7 @@
 
 
 
+
 # Flashing the LB6M to a Brocade TurboIron 24X
 
 ## Disclaimer & Caveats
@@ -29,9 +30,11 @@ Connect to the serial console  port on the switch and open a terminal window (96
 ## Image Selection
 You need to decide which image you want to flash. There are two codetrains for this switch - v7 and v8. v8 is the "latest and greatest" with the most features. However v7 is the "LTS" branch and has had more QA and more bug fixes (several months worth) compared to v8.  
 
-If you're in a highly critical application, v7 might be your best choice. For everyone else, I've had no problems with v8 running with a large config for a few months straight. Keep in mind both versions have the same L2/L3 features - v8 might just have new, easier commands, etcetera.
+If you're in a highly critical application, v7 might be your best choice. For everyone else, I've had no problems with v8 running with a large config for a few months straight. Keep in mind both versions have the same L2/L3 features - v8 might just have new, easier commands, etcetera.  
 
-Once you decide which version to use, you need to decide between the L2 and L3 image. The Layer 3 image is the full OS including everything - all routing protocols as well as all L2 features. This is what should be used in 99% of cases, especially if you want to use the config guide on this site. The L2 image is layer 2 switching only. If you have a special case where this is needed, it's included.
+Once you decide which version to use, you need to decide between the L2 and L3 image. The Layer 3 image is the full OS including everything - all routing protocols as well as all L2 features. This is what should be used in 99% of cases, especially if you want to use the config guide on this site. The L2 image is layer 2 switching only. If you have a special case where this is needed, it's included.  
+
+**Note:** In 99% of cases, you should choose the v8 layer 3 image. If you're unsure about anything, use this version.
 
 Now that you've chosen, start a TFTP server and copy over ```brocadeboot.bin``` from the Bootloader folder. Then take whatever OS image you decided upon, and rename it to ```brocadeimage.bin``` - this ensures all the commands in this guide match. Put your new ```brocadeimage.bin``` on your TFTP server as well.  
 
@@ -244,4 +247,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v2.6 (03-01-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v2.7 (03-01-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
