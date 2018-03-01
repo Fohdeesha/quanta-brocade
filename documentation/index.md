@@ -18,15 +18,24 @@ Two things will also change due to hardware differences:
 If you're looking to purchase an LB6M, we recommend [UnixPlus](https://www.unixplus.com/products/quanta-lb6m-24-port-10gbe-sfp-4x-1gbe-l2-l3-switch) - their stock is all brand new and of known origin.
 ## Prerequisites
 
-This guide assumes you're familiar with the basics like tftp, obtaining a serial console to the device, etc. If you're not, this guide is probably not for you. Before touching your switch, read this document from beginning to end to get a basic idea of what you'll be doing - do **not** skip this step.  
+This guide assumes you're familiar with the basics like TFTP, obtaining a serial console to the device, etc. If you're not, this guide is probably not for you. Before touching your switch, read this document from beginning to end to get a basic idea of what you'll be doing - do **not** skip this step.  
 
-The risk of doing this is mitigated if you're properly prepared and follow closely. It's a good idea to have the switch on a UPS while you do this, if you lose power after the ```erase``` command before you've flashed the new bootloader, your device will be bricked (however it can be recovered with a PowerPC capable JTAG unit).  
+The risk of doing this is mitigated if you're prepared and follow closely. It's a good idea to have the switch on a UPS while you do this, if you lose power after the ```erase``` command before you've flashed the new bootloader, your device will be bricked (however it can be recovered with a PowerPC capable JTAG unit).  
 
-First grab this [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) ```(zip updated: 2-14-2018)``` - it contains your bootloader, OS, and all the documentation you'll need.  
-
-Start a tftp server and make sure both ```brocadeboot.bin``` and ```brocadeimage.bin``` are being served by it. They can be found in the ```Main Flash``` folder.  
+First grab this [Brocade Firmware Zip](http://brokeaid.com/files/Brocade-TI.zip) ```(zip updated: 03-01-2018)``` - it contains your bootloader, OS, and all the documentation you'll need.  
 
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server.
+
+## Image Selection
+You need to decide which image you want to flash. There are two codetrains for this switch - v7 and v8. v8 is the "latest and greatest" with the most features. However v7 is the "LTS" branch and has had more QA and more bug fixes (several months worth) compared to v8.  
+
+If you're in a highly critical application, v7 might be your best choice. For everyone else, I've had no problems with v8 running with a large config for a few months straight. Keep in mind both versions have the same L2/L3 features - v8 might just have new, easier commands, etcetera.
+
+Once you decide which version to use, you need to decide between the L2 and L3 image. The Layer 3 image is the full OS including everything - all routing protocols as well as all L2 features. This is what should be used in 99% of cases, especially if you want to use the config guide on this site. The L2 image is layer 2 switching only. If you have a special case where this is needed, it's included.
+
+Now that you've chosen, start a TFTP server and copy over ```brocadeboot.bin``` from the Bootloader folder. Then take whatever OS image you decided upon, and rename it to ```brocadeimage.bin``` - this ensures all the commands in this guide match. Put your new ```brocadeimage.bin``` on your TFTP server as well.  
+
+
 
 
 ## Flash Preparation 
@@ -235,4 +244,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v2.5 (02-26-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v2.6 (03-01-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
