@@ -6,34 +6,29 @@
 ## Getting Started
 
 
-Brocade's CLI is 80% identical to Cisco, with the majority of the differences being related to VLAN configuration. This short intro will get you set up with an account, SSH, and an IP for the switch. The Layer 3 firmware comes with all ports in VLAN 1 by default, so if you just need layer 2 switching, you can leave the VLAN/virtual interface config as-is and use the out of band management port to talk to the switch.  
+Brocade's CLI is 80% identical to Cisco, with the majority of the differences being related to VLAN configuration. This guide will introduce you to the basics like vlans, SSH, inter-vlan routing, etc. The Layer 3 firmware comes with all ports in VLAN 1 by default, so if you just need layer 2 switching, you can leave the config as-is and use the out of band management port to talk to the switch.  
 
 This guide was intended for the v8 layer 3 OS image. Everything should work in the v7 layer 3 image as well, but it's not guaranteed. If you're running the L2 only image from either codetrain, most of these commands will not work.  
+
+Please keep in mind that any commands you run take effect immediately - however they have not been saved in flash, so they will disappear on reboot. To commit changes to flash, use the command ```write memory```.
 
 
 To enter the enable level:
 ```
 enable
 ```
-To make changes you'll need to enter the configure level:
+To make changes you'll need to then enter the configure level:
 ```
 configure terminal
 ```
 Everything can be shortened as long as it doesn't match another command, so the below would also work instead of the above:
 
 ```
-conf t
+con t
 ```
-You also have tab completion so if you're ever curious about a command, type it and hit tab, it'll give you a list of all arguments. You can also just hit tab with no text and it'll show you all commands available at the current level.  
+You have tab completion - make use of it. If you're ever curious about a command or arguments it will take, just type it and hit tab, it'll give you info and options. You can also just hit tab with no text and it'll show you all commands available at the current level.  
 
-Now we need to tell it to start generating our keys, so we can enable SSH:
-```
-crypto key generate rsa
-#This creates a 1024-bit keypair
-#For more options, enter the command but hit tab instead of enter
-```
-
-Give the switch a name/hostname:
+Let's start by giving the switch a name:
 
 ```
 hostname blinkenmaschine
@@ -97,31 +92,56 @@ exit
 ```
 They'll now route between each other, assuming your devices have gateways properly set etcetera.
 
-
-## Authentication
-
-First we need to tell it to use local user accounts for authentication instead of RADIUS etc. Assuming you're still at the ```configure terminal``` level:
+## SSH Access
+To enable SSH access, we just need to generate a key pair. This enables the SSH server:
 ```
-aaa authentication enable default local
-aaa authentication login default local
+crypto key generate rsa
 ```
+You can now SSH to the switch. Since we haven't configured user accounts, when it prompts with ```login as```, just hit enter. Remember that anyone can still SSH or telnet to your switch with no authentication!
 
-Now give the root user a password:
+Remember SSH (and serial console) on Brocade devices requires shift+backspace to backspace. This can be fixed by setting your putty session settings to "Control+H" for backspace method under ```Terminal > Keyboard```. Telnet does not have this "feature", backspace will work as normal in telnet sessions without special putty settings.
+
+
+## Securing The Switch
+
+If you wish to leave the switch unsecured (home lab for instance), skip this whole section. To secure the switch, we need to create an account - "root" can be any username string you wish:
 ```
 username root password yourpasshere
 ```
-Now when logging in, it will ask for the user, use root. When you try to enter the ```enable``` level, you'll need to enter said password.
+We also need to tell it to use our new local user account(s) to authorize attempts to log in as well as attempts to enter the ```enable``` CLI level:
+```
+aaa authentication login default local
+aaa authentication enable default local
+```
+We should also tell it to use our account to authorize serial console access, as well as telnet access:
+```
+enable aaa console
+enable telnet authentication
+```
+On next switch reboot, the serial console will ask you to first login before any commands whatsoever are available. (If you forget your login for some reason, you can get back in via the bootloader, google fastiron password recovery).
 
-If you want no password to leave the switch unsecured, run these commands:
+On the topic of telnet, we should disable it entirely as it's very insecure (all data including passwords is sent in cleartext):
 ```
-username root nopassword
-ip ssh permit-empty-passwd yes
+no telnet server
 ```
-If you want to be able to SSH to the switch without setting up a key pair, run this command:
+The switch console is now password protected, and you can 	SSH to it - use your new credentials to log in.
+
+
+
+### Key Based SSH Access
+
+If you wish to disable password-based SSH login and set up a key pair, follow this section. If not, skip it. Enable key login, and disable password login:
 ```
-ip ssh key-authentication no
+ip ssh key-authentication yes
+ip ssh password-authentication no
 ```
-If you do wish to enable key based SSH login, it's beyond the scope of this intro. Refer to the main ```ConfigGuide``` PDF, specifically page 124. It will say DSA, but RSA is also supported. 
+Now we have to generate our key pair with [puttygen](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) on windows or by running ```ssh-keygen -t rsa``` on linux. The default settings of RSA @ 2048 bits works without issue. Generate the pair and save out both the public and private key. 
+
+Copy the public key file to your TFTP server. Then use the following command to import it into your switch:
+```
+ip ssh pub-key-file tftp 192.168.1.49 public.key
+```
+You shouldn't need to be told basic key management if you're following this section, but just in case - copy your private key to the proper location on the *nix machine you'll be SSH'ing from, or if you're on windows, load it using [pageant](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html). Now when you SSH to the switch, it will authenticate using your private key.
 
 ## SNMP
 To quickly enable SNMPv2, follow the below. SNMP v3 is available but you'll have to refer to the included documentation:
@@ -197,7 +217,7 @@ show chassis
 show version
 show log
 ```
-These have all been very basic commands and most of them will take many more arguments for advanced configuration. We highly recommend referring to the included documentation to continue further.  
+This has been a brief touch on 5% of the OS if that -  we highly recommend referring to the included documentation to continue further.  
 
 We also highly recommend Terry Henry's [youtube channel](https://www.youtube.com/user/terryalanhenry/videos). He's an engineer at Brocade and has hundreds of short, concise videos on how to do anything you can think of in the OS. Some of the newer videos might not apply to our TurboIron codebase, but 90% of them will.  
 
