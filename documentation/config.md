@@ -2,6 +2,7 @@
 
 
 
+
 ## Getting Started
 
 
@@ -120,7 +121,7 @@ If you want to be able to SSH to the switch without setting up a key pair, run t
 ```
 ip ssh key-authentication no
 ```
-If you do wish to enable key based SSH login, it's beyond the scope of this intro. Refer to the Security Guide PDF included. It has information on all of the above, SSH, etc. 
+If you do wish to enable key based SSH login, it's beyond the scope of this intro. Refer to the main ```ConfigGuide``` PDF, specifically page 124. It will say DSA, but RSA is also supported. 
 
 ## SNMP
 To quickly enable SNMPv2, follow the below. SNMP v3 is available but you'll have to refer to the included documentation:
