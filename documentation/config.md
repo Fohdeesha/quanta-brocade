@@ -135,7 +135,7 @@ If you wish to disable password-based SSH login and set up a key pair, follow th
 ip ssh key-authentication yes
 ip ssh password-authentication no
 ```
-Now we have to generate our key pair with [puttygen](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) on windows or by running ```ssh-keygen -t rsa``` on linux. The default settings of RSA @ 2048 bits works without issue. Generate the pair and save out both the public and private key. 
+Now we have to generate our key pair with [puttygen](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) on windows or ```ssh-keygen -t rsa``` on linux. The default settings of RSA @ 2048 bits works without issue. Generate the pair and save out both the public and private key. 
 
 Copy the public key file to your TFTP server. Then use the following command to import it into your switch:
 ```
