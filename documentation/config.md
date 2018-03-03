@@ -27,7 +27,8 @@ You also have tab completion so if you're ever curious about a command, type it 
 
 Now we need to tell it to start generating our keys, so we can enable SSH:
 ```
-crypto key generate
+crypto key generate rsa
+#This creates a 1024-bit keypair. For more options, enter the command but hit tab instead of enter
 ```
 
 Give the switch a name/hostname:
