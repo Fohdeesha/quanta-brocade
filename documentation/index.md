@@ -5,16 +5,16 @@
 
 
 
+
 # Flashing the LB6M to a Brocade TurboIron 24X
 
 ## Disclaimer & Caveats
-We are not responsible for any damaged devices or property resulting from this guide. This guide assumes you own a legitimate Brocade TurboIron and therefore have rights to the firmware & its use.
-Two things will also change due to hardware differences:
+We are not responsible for any damaged devices or property resulting from this guide. This guide assumes you own a legitimate Brocade TurboIron and therefore have rights to the firmware & its use. The software itself requires no license or activation to fully function, but legally you need the rights to the firmware. Some things will also change due to hardware differences:
 
 * The SFP+ port activity/status LEDs stop doing anything. The copper ports and chassis LEDs continue to work as normal. The Quanta uses a CPLD to multiplex the LED signals, while the Brocade uses native CPU I/O. There's no way around this difference.
 
 * The Brocade only has one Out Of Band management port, so the code is only aware of the #1 OOB port. The #2 management port will no longer do anything. 
-* Due to a software configuration difference, the out of band management port may link at slower speeds than it did under Fastpath (eg at 100mbit). In one case, we saw it stop linking altogether. For more information, please [click here](http://brokeaid.com/mgmt/). To reiterate, this only affects the management port for OOB telnet/ssh. It does not affect switched/routed traffic, and you can configure other switch ports to be used for isolated management via ACLs if you really need something other than in-band management. That said, 99% of peoples management port continues to work fine.
+* Due to a difference in PCB trace layout for the management port PHY, the management-only port may link at slower speeds than it did under Fastpath (eg at 100mbit). In a rare case, we saw it stop linking altogether until a software revert. For more information, please [click here](http://brokeaid.com/mgmt/). This only affects the management port. All other ports, including copper ports function perfectly. In-band management functions perfectly, it is only the OOB port PHY affected.
 * If you don't like the Brocade OS, or have other issues, you can always flash back to 100% stock Fastpath using the Revert guide to the left, so none of this is permanent.  
 
 If you're looking to purchase an LB6M, we recommend [UnixPlus](https://www.unixplus.com/products/quanta-lb6m-24-port-10gbe-sfp-4x-1gbe-l2-l3-switch) - their stock is all brand new and of known origin.
@@ -55,7 +55,7 @@ Reboot the switch while watching the serial output, it should prompt you to hit 
 ```
 
 With all the following commands, copy and paste them *exactly* as you see them. Do not try to manually type them. 
-After 50+ successful flashes, we had our first report of a brick. It was from someone trying to manually type each command, and mistaking a "O" for a "0". Copy and paste only!   
+After 50+ successful flashes, the first brick was a result of a typo from someone trying to manually type.
 
 Use the memory read command to verify your Quanta bootloader is where it should be - this ensures the commands to follow will use the correct location:
 
@@ -210,7 +210,7 @@ show flash
 show chassis
 show media
 ```
-This is the full layer 3 image that ships with all features enabled, so please follow the included guides in the Documentation folder to configure your new switch. A quick guide is available on the left, but this site is not a substitute for learning Brocade's documentation.
+Please check out and follow the included guides in the Documentation folder to configure your new switch. A quick guide is available on the left, but this site is not a substitute for learning Brocade's documentation.
 
 ## Fixing The MAC Address
 
@@ -252,4 +252,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v2.8 (03-01-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v2.9 (03-03-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 

@@ -1,6 +1,7 @@
 
 
 
+
 ## Getting Started
 
 
@@ -44,7 +45,7 @@ int management 1
 ip addr 192.168.1.50/24
 exit
 ```
-You can now telnet/SSH to that IP over the OOB management port.
+You can now telnet to that IP over the OOB management port. For SSH, you'll need to complete the ```Authentication``` section.
 
 ## Assigning an in-band management IP + VLAN VE Config
 You can also assign an IP to one of the VLANs, so the switch is accessible from the normal ports. You don't have to choose one or the other, you can have in-band and out-of-band management both configured simultaneously, but the IP's will need to be on different subnets.  
