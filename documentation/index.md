@@ -15,7 +15,7 @@ We are not responsible for any damaged devices or property resulting from this g
 
 * The Brocade only has one Out Of Band management port, so the code is only aware of the #1 OOB port. The #2 management port will no longer do anything. 
 * Due to a difference in PCB trace layout for the management port PHY, the management-only port may link at slower speeds than it did under Fastpath (eg at 100mbit). In a rare case, we saw it stop linking altogether until a software revert. For more information, please [click here](http://brokeaid.com/mgmt/). This only affects the management port. All other ports, including copper ports function perfectly. In-band management functions perfectly, it is only the OOB port PHY affected.
-* If you don't like the Brocade OS, or have other issues, you can always flash back to 100% stock Fastpath using the Revert guide to the left, so none of this is permanent.  
+* If you don't like the Brocade OS, or have other issues, you can always flash back to 100% stock Fastpath using the revert guide to the left, so none of this is permanent.  
 
 If you're looking to purchase an LB6M, we recommend [UnixPlus](https://www.unixplus.com/products/quanta-lb6m-24-port-10gbe-sfp-4x-1gbe-l2-l3-switch) - their stock is all brand new and of known origin.
 ## Prerequisites
