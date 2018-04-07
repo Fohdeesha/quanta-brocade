@@ -6,6 +6,7 @@
 
 
 
+
 # Flashing the LB6M to a Brocade TurboIron 24X
 
 ## Disclaimer & Caveats
@@ -33,15 +34,15 @@ Download the firmware ZIP below. It contains your bootloader, OS, and all the do
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server.
 
 ## Image Selection
-You need to decide which image you want to flash. There are two codetrains for this switch - v7 and v8. v8 is the "latest and greatest" with the most features. However v7 is the "LTS" branch and has had more QA and more bug fixes (several months worth) compared to v8.  
+You need to decide which image you want to flash. There are two codetrains for this switch - v7 and v8. v8 is the "latest and greatest", and technically a beta release. However v7 is the "LTS" branch and has had more QA and more bug fixes (several months worth) compared to v8.  
 
-If you're in a highly critical application, v7 might be your best choice. For everyone else, I've had no problems with v8 running with a large config for a few months straight. Keep in mind both versions have the same L2/L3 features - v8 might just have some new commands etcetera.  
+In 90% of cases, I recommend using the v7 codetrain. The v8 has one known issue already (severe LACP flapping in an STP environment), while the v7 image is flawless. Keep in mind both versions have the same L2/L3 features - so you're not missing out on anything using v7.
 
 Once you decide which version to use, you need to decide between the L2 and L3 image. The Layer 3 image is the full OS including everything - all routing protocols as well as all L2 features. This is what should be used in 99% of cases, especially if you want to use the config guide on this site. The L2 image is layer 2 switching only. If you have a special case where this is needed, it's included.  
 
-**Note:** In 99% of cases, you should choose the v8 layer 3 image. If you're unsure about anything, use this version.
+**Note:** In 99% of cases, you should choose the v7 layer 3 image. If you're unsure about anything, use this version.
 
-Now that you've chosen, start a TFTP server and copy over ```brocadeboot.bin``` from the Bootloader folder. Then take whatever OS image you decided upon, and rename it to ```brocadeimage.bin``` - this ensures all the commands in this guide match. Put your new ```brocadeimage.bin``` on your TFTP server as well.  
+Now that you've chosen, copy ```brocadeboot.bin``` from the Bootloader folder to your TFTP server root directory. Then take whatever OS image you decided upon, and rename it to ```brocadeimage.bin``` - this ensures all the commands in this guide match. Put your new ```brocadeimage.bin``` on your TFTP server as well. If you're on windows and need a temporary TFTP server, I recommend [Tftpd32 Portable Edition](http://tftpd32.jounin.net/tftpd32_download.html).
 
 
 
@@ -162,9 +163,7 @@ fff80070: 00000000 00000000 00000000 00000000    ................
 
 If it matches, continue on to **Booting Brocade** below - the risky part is over. However if it doesn't, don't panic. Does it match the output you got earlier when you ran ```md 0xfff80000 20``` at the beginning of this guide? If so, that means the Quanta bootloader is still there. Either you didn't properly disable write protection, or something else has gone wrong. You can reboot into Quanta like normal, and contact us on the forums. 
 
-However if it matches neither, something has failed. We have yet to see this, but just in case you do -  be sure you're running the exact commands here, and do the guide again from ```tftpboot 0x100000 brocadeboot.bin``` and onwards until you get the bootloader where it should be. If you follow the commands, it should work.  
-
-**Do not reboot or pull power until this is resolved.** If there is not a valid bootloader in that location, it will not boot itself. As a last resort you can try flashing the quanta bootloader back by substituting the uboot.bin in the ```Fastpath Revert``` folder in all the commands mentioning brocadeboot.bin - just use uboot.bin instead. If successful, the output of  ```md 0xfff80000 20``` should match the example at the beginning of this guide, then you can reboot.
+However if it matches neither, something has failed. We have yet to see this, but just in case you do -  be sure you're running the exact commands here, and do the guide again from ```tftpboot 0x100000 brocadeboot.bin``` and onwards until you get the bootloader where it should be. If you follow the commands, it should work.  **Do not reboot or pull power until this is resolved.**  
 
 ## Booting Brocade
 You now have the Brocade bootloader in the proper section of the PowerPC flash. Now we just need to reboot! 
@@ -252,4 +251,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v3.0 (03-03-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v3.1 (04-07-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
