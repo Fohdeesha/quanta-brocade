@@ -28,8 +28,8 @@ The risk of doing this is mitigated if you're prepared and follow closely. It's 
 Download the firmware ZIP below. It contains your bootloader, OS, and all the documentation you'll need.  
 
 [```Brocade Firmware Zip```](http://brokeaid.com/files/Brocade-TI.zip)  
-```Zip Updated: 03-01-2018```  
-```MD5: 44e00c38d996c2dfa33cda264b6be070```  
+```Zip Updated: 05-14-2018```  
+```MD5: 883a8e348c22938ef5c3de1ddc75a58a```  
 
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server.
 
@@ -251,4 +251,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v3.1 (04-07-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v3.2 (05-14-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
