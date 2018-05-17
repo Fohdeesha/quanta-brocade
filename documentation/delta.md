@@ -1,9 +1,13 @@
+
 # Flashing the Delta 7024 to a Dell 8024
 
 ## Disclaimer & Caveats
-We are not responsible for any damaged devices or property resulting from this guide. 
+This page will guide you through flashing a Delta Networks 7024 (DNI7024F) to a Dell PowerConnect 8024 (PC8024F). We are not responsible for any damaged devices or property resulting from this guide. As of now this process is irreversible, so be sure you want to do it. 
 
 **NOTE: UNFINISHED GUIDE! DO NOT FOLLOW!!!!!**
+
+## Advantages
+The Delta switch comes with a very limited "demo build" of Fastpath, with little to no documentation. There's also no updates for it ever released. By switching to Dell, you gain regular firmware updates (as recent as a few months ago), and plenty of documentation. You get a more fleshed out OS including a web interface as well.
 
 ## Prerequisites
 
@@ -255,6 +259,11 @@ Please check out and follow the included guides in the Documentation folder to c
 
 If you have any unexpected results, output that doesn't match this guide, or something is not clear, please do not hesitate to [email me](mailto:internetjoelol@gmail.com) - Unlike the Quanta, I do not personally own a Delta 7024 so this guide was written by sending code back and forth to a 7024 owner. This means some sections might not be as clear as they could be.  
 
+## Updating
+Dell will probably release new firmware packages for the 8024. You can check [here](http://www.dell.com/support/home/us/en/04/product-support/product/powerconnect-8024f/drivers). If you see new versions you can use them to update your switch just like it was a stock Dell. Just boot into the full OS, and use TFTP to download the new STK image file. Then boot into the bootloader and update the boot code as well (every STK firmware image comes with new bootcode). You may also need to update the CPLD again (check the new firmware release notes).  
+
+ Note: If you have not converted your Delta switch yet, do not use a new firmware package from Dell to do it. Use the custom package linked at the beginning of this guide for the initial conversion.
+
 ## Secret Boot Menu
 You should not need this, but just in case you are curious: there is a hidden low-level boot menu inside the Dell bootloader. Reboot the switch into the normal bootloader. When it asks for you to enter an option, enter `30`. When it asks for a password, use `pc62xxkinnick` - you will be dropped into a low level boot menu. Note: many things here can break your switch! be careful:
 
@@ -266,4 +275,4 @@ boot menu pic
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v0.1 (05-16-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v0.2 (05-17-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
