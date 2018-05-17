@@ -1,13 +1,12 @@
 
 # quanta-brocade
-Documentation for flashing Brocade TurboIron firmware to Quanta LB6M 
-(or flashing LB6M Fastpath firmware to a Brocade TurboIron using the revert guide)
+Documentation for flashing Brocade TurboIron firmware to Quanta LB6M. And now for cross-flashing other switches too!  
 
 The raw markdown source in this repo is intended to be built using [MkDocs](http://www.mkdocs.org/) - not displayed on GitHub.
 
-Guide: [brokeaid.com](http://brokeaid.com/)  
+Guides: [brokeaid.com](http://brokeaid.com/)  
 
-STH Discussion Thread - [ServeTheHome](https://forums.servethehome.com/index.php?threads/turbocharge-your-quanta-lb6m-flash-to-brocade-turboiron.17971/)  
+STH Discussion Thread (LB6M) - [ServeTheHome](https://forums.servethehome.com/index.php?threads/turbocharge-your-quanta-lb6m-flash-to-brocade-turboiron.17971/)  
 
 Q. Why does this work without modifying the firmware?  
 
