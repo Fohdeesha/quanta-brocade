@@ -1,13 +1,12 @@
-
-
-
 # Flashing the Delta 7024 to a Dell 8024
 
 ## Disclaimer & Caveats
 This page will guide you through flashing a Delta Networks 7024 (DNI7024F) to a Dell PowerConnect 8024 (PC8024F). We are not responsible for any damaged devices or property resulting from this guide. As of now this process is irreversible, so be sure you want to do it. 
 
 ## Advantages
-The Delta switch comes with a very limited "demo build" of Fastpath, with little to no documentation. There's also no updates for it ever released. By switching to Dell, you gain regular firmware updates (as recent as a few months ago), and plenty of documentation. You get a more fleshed out OS including a web interface as well.
+The Delta switch comes with a very limited "demo build" of Fastpath, with little to no documentation. There's also no updates for it ever released. By switching to Dell, you gain regular firmware updates (as recent as a few months ago), and plenty of documentation. You get a more fleshed out OS including a web interface as well.  
+
+There's one downside: the Dell firmware is very picky about SFP+ optics. You must use Dell branded optics or they won't work. However if you're using DAC cables, any brand will work without issue.
 
 ## Prerequisites
 
@@ -275,4 +274,4 @@ You should not need this, but just in case you are curious: there is a hidden lo
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v0.5 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v0.6 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
