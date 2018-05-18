@@ -1,10 +1,9 @@
 
+
 # Flashing the Delta 7024 to a Dell 8024
 
 ## Disclaimer & Caveats
 This page will guide you through flashing a Delta Networks 7024 (DNI7024F) to a Dell PowerConnect 8024 (PC8024F). We are not responsible for any damaged devices or property resulting from this guide. As of now this process is irreversible, so be sure you want to do it. 
-
-**NOTE: UNFINISHED GUIDE! DO NOT FOLLOW!!!!!**
 
 ## Advantages
 The Delta switch comes with a very limited "demo build" of Fastpath, with little to no documentation. There's also no updates for it ever released. By switching to Dell, you gain regular firmware updates (as recent as a few months ago), and plenty of documentation. You get a more fleshed out OS including a web interface as well.
@@ -194,29 +193,29 @@ Because Dell is very forward thinking and does not have TFTP in their bootloader
 
 To do so you need to download and use  [TeraTerm](https://osdn.net/projects/ttssh2/releases/) as it supports XMODEM transfers with 1K blocksize - trust me, you want this if you don't have all day. You can download the ZIP version and just run it from a folder if you don't want to install any new software - just launch it with the `ttermpro.exe` file.  
 
-Close putty or whatever serial console program you were using, and launch TeraTerm, and select your serial port. The boot menu prompt should come back up, now in Teraterm - just hit `?` to get the switch to populate the boot menu options again.  
+Close putty or whatever serial console program you were using, and launch TeraTerm, then select your serial port. The boot menu prompt should come back up, now in Teraterm - just hit `?` to get the switch to populate the boot menu options again.  
 
-We need to change the switches baud rate to 115200, or else the transfer will take 6+ hours. Enter `2` in the menu, and then select the `115200` option. The console will then go unresponsive, as it's running a new baud rate. You need to change the baud rate in TeraTerm. In TeraTerm, to `Setup > Serial Port` and change the baud to 115200: and click OK:
+We need to change the switches baud rate to 115200, or else the transfer will take 6+ hours. Enter `2` in the menu, and then select the `115200` option. The console will go unresponsive, as it's running a new baud rate. You need to change the baud rate in TeraTerm. Navigate to `Setup > Serial Port` and change the baud to 115200 - then click OK:
 
-serialport pic
+![TeraTerm Menu](http://brokeaid.com/files/pictures/serialspeed.png)
 
-Hit enter a few times and the switch should come back. `Note:` When you change the switches baud rate it only takes effect for this session. If you reboot the switch, it will fall back to 9600 and need changed again.  
+Hit enter a few times and the switch should come back. `Note:` When you change the switches baud rate it only takes effect for this session. It will reset to 9600 on the next boot.
 
 Now we just need to start the transfer. Send the switch `4` for `Load new operational code` - you will see CKCKCK at the bottom - it's waiting for a transfer. In TeraTerm, navigate to `File > Transfer > XMODEM > Send`, then select the `PC8024v5.1.12.2.stk` file you extracted from the ZIP.  **MAKE SURE** before clicking OK that you check the `1K` box! Once you have checked it, just click Open and it will start the transfer.
 
-menu pic
+![TeraTerm Menu](http://brokeaid.com/files/pictures/teratermTX.png)
 
-1k pic
+![TeraTerm Menu](http://brokeaid.com/files/pictures/1kblock.png)
 
 The transfer will take about 18 minutes. Grab a drink. When it's done, the switch will give an error similar to `error obtaining active image name` - this is normal. Wait a minute or two and press enter a few times - you should return to the boot menu.  
 
-If you get no reply after hitting enter, it's because it booted into the new OS, which changes the baudrate back to the default 9600. In TeraTerm, go back into `Setup > Serial Port` and set the baud back to 9600 then try sending enter again. You should be at the OS prompt, in which case we need to reboot back into the bootloader to re-flash the BL using Dell's routine:
+If you get no reply after hitting enter, it's because it booted into the new OS, which changes the baudrate back to the default 9600. In TeraTerm, go back into `Setup > Serial Port` and set the baud back to 9600 then try sending enter again. You should be at the OS prompt If it asks you to run the setup wizard, select no. We need to reboot back into the bootloader to re-flash the BL using Dell's routine:
 ```
 enable
 reload
 ```
 
-It will reboot, watch for it to send a boot prompt asking how to boot. Select option `2` to boot into the boot menu. You should now be in the boot menu, or still there if the switch didn't boot after uploading the OS image.  
+It will reboot - watch for it to display a boot prompt asking how to boot. Select option `2` to boot into the boot menu. You should now be in the boot menu, or still there if the switch didn't boot after uploading the OS image.  
 
 Now send the switch the boot menu option `7 - Update boot code` - this will reflash the bootloader using Dell's official flash routine and will re-enable flash write protect, which is a good thing. When it finishes, it should auto reboot the switch, and it should boot all the way into the Dell OS. If it just returns you to the boot menu, send `1 - Start operational code`.
 
@@ -230,7 +229,7 @@ At the OS prompt, enter the enable level then send the update command:
 enable
 dev cpldUpdate
 ```
-You should get output like the below:
+You should get output matching the below:
 ```
 Device #1 Silicon ID is ALTERA04(01)
 erasing MAXII device(s)...
@@ -242,7 +241,8 @@ verifying CFM block...
 verifying UFM block...
 DONE
 CPLD update exited with a return code of 0
-error_address 180300310, exit_code 0, format_version 2
+error_address 398931407, exit_code 0, format_version 2
+ 
 value = -1 = 0xffffffff
 ```
 The error_address at the end is normal - just ensure you see both the `programming` and `verifying` steps completed. Now you need to cold power the switch to reset the CPLD - unplug the switch power, wait a couple seconds, and plug it back in. Do not skip this step or you will have very wonky behavior!  
@@ -253,21 +253,27 @@ Once it boots back all the way into the OS, check the CPLD status:
 enable
 dev cpldTest
 ```
-Make sure it can see your fans and power supplies (a power supply = failed is normal if the secondary PSU is not plugged in). Most importantly, ensure the `CPLD Revision` equals `6 (0x6)`. If so, you're done! You now have a fully flashed Dell PC8024F.  
+You should see output like the below. Most importantly, make sure the CPLD revision matches (should be `6`):
+```
+Board Type                : Campbell 24F
+Board Version             : 2
+CPLD Revision             : 6 (0x6)
+```
+Make sure it can see your fans and power supplies as well. You shouldn't have any `fan tray missing` or `fan tray error` statements (an `RPS: Failed` is normal if one of the two power supplies are not plugged in). You now have a fully flashed Dell PC8024F.  
 
 Please check out and follow the included guides in the Documentation folder to configure your new switch.  
 
 If you have any unexpected results, output that doesn't match this guide, or something is not clear, please do not hesitate to [email me](mailto:internetjoelol@gmail.com) - Unlike the Quanta, I do not personally own a Delta 7024 so this guide was written by sending code back and forth to a 7024 owner. This means some sections might not be as clear as they could be.  
 
 ## Updating
-Dell will probably release new firmware packages for the 8024. You can check [here](http://www.dell.com/support/home/us/en/04/product-support/product/powerconnect-8024f/drivers). If you see new versions you can use them to update your switch just like it was a stock Dell. Just boot into the full OS, and use TFTP to download the new STK image file. Then boot into the bootloader and update the boot code as well (every STK firmware image comes with new bootcode). You may also need to update the CPLD again (check the new firmware release notes).  
+Dell will probably release new firmware packages for the 8024. You can check [here](http://www.dell.com/support/home/us/en/04/product-support/product/powerconnect-8024f/drivers). If you see new versions you can use them to update your switch just like it was a stock Dell. Just boot into the full OS and use TFTP to download the new STK image file. Then boot into the bootloader and update the boot code as well (every STK firmware image comes with new bootcode). You may also need to update the CPLD again (check the new firmware release notes).  
 
  Note: If you have not converted your Delta switch yet, do not use a new firmware package from Dell to do it. Use the custom package linked at the beginning of this guide for the initial conversion.
 
 ## Secret Boot Menu
 You should not need this, but just in case you are curious: there is a hidden low-level boot menu inside the Dell bootloader. Reboot the switch into the normal bootloader. When it asks for you to enter an option, enter `30`. When it asks for a password, use `pc62xxkinnick` - you will be dropped into a low level boot menu. Note: many things here can break your switch! be careful:
 
-boot menu pic
+![TeraTerm Menu](http://brokeaid.com/files/pictures/hiddenboot.png)
 
 ### Thanks:
 [**Jon Sands**](http://fohdeesha.com/)  
@@ -275,4 +281,4 @@ boot menu pic
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v0.2 (05-17-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v0.3 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
