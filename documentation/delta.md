@@ -208,19 +208,11 @@ Now we just need to start the transfer. Send the switch `4` for `Load new operat
 
 ![TeraTerm Menu](http://brokeaid.com/files/pictures/1kblock.png)
 
-The transfer will take about 18 minutes. Grab a drink. When it's done, the switch will give an error similar to `error obtaining active image name` - this is normal. Wait a minute or two and press enter a few times - you should return to the boot menu.  
+The transfer will take about 18 minutes. Grab a drink. When it's done, the switch will give an error similar to `error obtaining active image name` - this is normal. Wait a minute or so and press enter a few times - you should return to the boot menu.  
 
-If you get no reply after hitting enter, it's because it booted into the new OS, which changes the baudrate back to the default 9600. In TeraTerm, go back into `Setup > Serial Port` and set the baud back to 9600 then try sending enter again. You should be at the OS prompt If it asks you to run the setup wizard, select no. We need to reboot back into the bootloader to re-flash the BL using Dell's routine:
-```
-enable
-reload
-```
+Now send the switch the boot menu option `7 - Update boot code` - this will reflash the bootloader using Dell's official flash routine and will re-enable flash write protect, which is a good thing. When it finishes, it should auto reboot the switch. If it just returns you to the boot menu, send `1 - Start operational code`.
 
-It will reboot - watch for it to display a boot prompt asking how to boot. Select option `2` to boot into the boot menu. You should now be in the boot menu, or still there if the switch didn't boot after uploading the OS image.  
-
-Now send the switch the boot menu option `7 - Update boot code` - this will reflash the bootloader using Dell's official flash routine and will re-enable flash write protect, which is a good thing. When it finishes, it should auto reboot the switch, and it should boot all the way into the Dell OS. If it just returns you to the boot menu, send `1 - Start operational code`.
-
-If you didn't before, you will now need to set your terminal's baudrate back to 9600 - the switch will go unresponsive as it boots into the OS and resets the console speed back to default. In TeraTerm go to `Setup > Serial Port` and set the baud back to 9600, then send enter a couple times - you should now be at the OS prompt.
+When it does boot, it will say `uncompressing image` then you will stop getting output in your terminal. This is because on boot the console speed reset back to 9600 baud. You will now need to set your terminal's baudrate back to 9600 - the switch will go unresponsive as it boots into the OS and resets the console speed back to default. In TeraTerm go to `Setup > Serial Port` and set the baud back to 9600, then send enter a couple times - you should now be at the OS prompt.
 
 ## Updating the CPLD
 The switch should have succesfully booted into the Dell OS. [Congratulations dude, you got a dell!](https://www.youtube.com/watch?v=8BsWijdM0W0)  However you're not done yet. You need to flash the Dell code to the [CPLD](https://en.wikipedia.org/wiki/Complex_programmable_logic_device). Long story short, it's a little processor that monitors and controls the fans, power supplies, chassis lights, that kind of thing.  
@@ -283,4 +275,4 @@ You should not need this, but just in case you are curious: there is a hidden lo
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v0.4 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v0.5 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
