@@ -58,7 +58,7 @@ fff80060: 800e171c 7dc07214 48002029 3c600002    ....}.r.H. )<`..
 fff80070: 60631200 7c600124 4c00012c 48001fa5    `c..|`.$L..,H...
 ```
 
-If the output on your switch does not match this exactly, **STOP!** Pastebin your switches output and get in touch with us on [ServeTheHome](https://forums.servethehome.com/index.php?threads/turbocharge-your-quanta-lb6m-flash-to-brocade-turboiron.17971/).
+If the output on your switch does not match this exactly, **STOP!** Pastebin your switches output and get in touch with us on [ServeTheHome](https://forums.servethehome.com/index.php?threads/flashing-delta-7024-to-dell-8024.19868/).
 
 Carrying on, assuming your ```md``` output matched ours: It's time to load in the Dell bootloader to a safe temporary location in RAM. You also need to set a temporary IP for the switch, as well as set the IP of your TFTP server destination:  
 
@@ -274,4 +274,4 @@ You should not need this, but just in case you are curious: there is a hidden lo
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v0.6 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v0.7 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
