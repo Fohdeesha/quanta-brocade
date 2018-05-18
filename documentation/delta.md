@@ -1,5 +1,6 @@
 
 
+
 # Flashing the Delta 7024 to a Dell 8024
 
 ## Disclaimer & Caveats
@@ -276,9 +277,10 @@ You should not need this, but just in case you are curious: there is a hidden lo
 ![TeraTerm Menu](http://brokeaid.com/files/pictures/hiddenboot.png)
 
 ### Thanks:
-[**Jon Sands**](http://fohdeesha.com/)  
+-[**Jon Sands**](http://fohdeesha.com/)  
+-**Xiaofei Sun** + **Zhu Junhang** for being the first to test this, then sending me all the  command output!
 
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v0.3 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v0.4 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
