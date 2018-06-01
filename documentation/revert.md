@@ -1,5 +1,6 @@
 
 
+
 # Reverting To Stock Fastpath
 
 ## Introduction 
@@ -48,6 +49,8 @@ copy tftp flash 192.168.1.49 ubootenv.bin quanta
 ```
 
 After some dots it should say ```Done```. You now have u-boot stored in onboard flash. Now we need to copy it to RAM, then to the final boot sector.
+
+**Note:** If you get a TFTP timeout error even though you're sure a cable is plugged into the management port, see the [management port section](http://brokeaid.com/mgmt/) for info on how to force a connection.
 
 Copy our ```quanta``` file to a location in RAM:
 
