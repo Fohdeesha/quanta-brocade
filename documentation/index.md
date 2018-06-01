@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 # Flashing the LB6M to a Brocade TurboIron 24X
 
 ## Disclaimer & Caveats
@@ -87,20 +78,19 @@ setenv serverip 192.168.1.49
 ```
 Now copy the Brocade bootloader to a temporary address in RAM for holding:
 ```
-tftpboot 0x100000 brocadeboot.bin
+tftpboot 0x300000 brocadeboot.bin
 ```
 
 The tftpboot command should have output similar to the below:
 ```
-=> tftpboot 0x100000 brocadeboot.bin
+=> tftpboot 0x300000 brocadeboot.bin
 Enet starting in 1000BT/FD
 Speed: 1000, full duplex
 Using TSEC0 device
-TFTP from server 192.168.1.51; our IP address is 192.168.1.142
+TFTP from server 192.168.1.49; our IP address is 192.168.1.50
 Filename 'brocadeboot.bin'.
-Load address: 0x100000
-Loading: Got error 4
-####################################
+Load address: 0x300000
+Loading: ####################################
 done
 Bytes transferred = 524288 (80000 hex)
 ```
@@ -108,20 +98,21 @@ Bytes transferred = 524288 (80000 hex)
 If you see Error 4 that's normal, just be sure the bytes transferred matches. Now you need to verify that the temporary address contains the Brocade bootloader:
 
 ```
-md 0x100000 20
+md 0x300000 20
 ```
 
 The output should match the below exactly:
 
 ```
-00100000: 4d554348 02057be5 0005a2d6 00004058    MUCH..{.......@X
-00100010: 00000000 00012f2c 0004d880 00600028    ....../,.....`.(
-00100020: 00030030 0004ffff ffffffff 00000000    ...0............
-00100030: 4e6ab6ae 07030000 74727a30 37333030    Nj......trz07300
-00100040: 00000000 00000000 00000000 00000000    ................
-00100050: 00000000 00000000 00000000 00000000    ................
-00100060: 00000000 00000000 00000000 00000000    ................
-00100070: 00000000 00000000 00000000 00000000    ................
+=> md 0x300000 20
+00300000: 4d554348 02057be5 0005a2d6 00004058    MUCH..{.......@X
+00300010: 00000000 00012f2c 0004d880 00600028    ....../,.....`.(
+00300020: 00030030 0004ffff ffffffff 00000000    ...0............
+00300030: 4e6ab6ae 07030000 74727a30 37333030    Nj......trz07300
+00300040: 00000000 00000000 00000000 00000000    ................
+00300050: 00000000 00000000 00000000 00000000    ................
+00300060: 00000000 00000000 00000000 00000000    ................
+00300070: 00000000 00000000 00000000 00000000    ................
 ```
 If it doesn't match, **STOP**. You can safely reboot back to Quanta by typing ```reset``` or power cycling it. If you'd like, pastebin the output and get in touch with us on ServeTheHome. If it does match, continue on.
 
@@ -140,7 +131,7 @@ erase 0xfff80000 0xffffffff
 ```
 Copy the Brocade bootloader:
 ```
-cp.b 0x100000 0xfff80000 0x80000
+cp.b 0x300000 0xfff80000 0x80000
 ```
 Congratulations, you've installed the Brocade bootloader (which can now load the Brocade software image). **DO NOT REBOOT YET!** First verify the Brocade bootloader is in the bootloader location:
 
@@ -163,7 +154,7 @@ fff80070: 00000000 00000000 00000000 00000000    ................
 
 If it matches, continue on to **Booting Brocade** below - the risky part is over. However if it doesn't, don't panic. Does it match the output you got earlier when you ran ```md 0xfff80000 20``` at the beginning of this guide? If so, that means the Quanta bootloader is still there. Either you didn't properly disable write protection, or something else has gone wrong. You can reboot into Quanta like normal, and contact us on the forums. 
 
-However if it matches neither, something has failed. We have yet to see this, but just in case you do -  be sure you're running the exact commands here, and do the guide again from ```tftpboot 0x100000 brocadeboot.bin``` and onwards until you get the bootloader where it should be. If you follow the commands, it should work.  **Do not reboot or pull power until this is resolved.**  
+However if it matches neither, something has failed. We have yet to see this, but just in case you do -  be sure you're running the exact commands here, and do the guide again from ```tftpboot 0x300000 brocadeboot.bin``` and onwards until you get the bootloader where it should be. If you follow the commands, it should work.  **Do not reboot or pull power until this is resolved.**  
 
 ## Booting Brocade
 You now have the Brocade bootloader in the proper section of the PowerPC flash. Now we just need to reboot! 
@@ -251,4 +242,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v3.2 (05-14-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v3.3 (06-01-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
