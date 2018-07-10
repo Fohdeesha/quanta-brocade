@@ -20,14 +20,14 @@ Download the firmware ZIP below. It contains your bootloader, OS, and all the do
 
 [```Brocade Firmware Zip```](http://brokeaid.com/files/Brocade-TI.zip)  
 ```Zip Updated: 05-14-2018```  
-```MD5: 883a8e348c22938ef5c3de1ddc75a58a```  
+```MD5: ecb977c944e8299fc7489c595a6effae```  
 
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server.
 
 ## Image Selection
-In the Firmware folder, you'll find `brocadeimage.bin` - this is the standard Layer 3 firmware image, with all layer 2 and layer 3 features in one. This is what you should use 99% of the time. If you have a specific edge case and need the layer 2-only firmware, it's included in the `Layer 2 Only` subfolder, and is named `v7-layer2.bin` - typical users will not need this.
+In the `Firmware` folder, you'll find `brocadeimage.bin` - this is the standard Layer 3 firmware image, with all layer 2 and layer 3 features in one. This is what you should use 99% of the time. If you have a specific edge case and need the layer 2-only firmware, it's included in the `Layer 2 Only` subfolder, and is named `v7-layer2.bin` - typical users will not need this.
 
-Copy `brocadeboot.bin` from the Bootloader folder to your TFTP server root directory. Then copy `brocadeimage.bin` from the `Firmware` folder to the same TFTP root folder. If you're on windows and need a temporary TFTP server, I recommend [Tftpd32 Portable Edition](http://tftpd32.jounin.net/tftpd32_download.html).
+Copy `brocadeboot.bin` from the `Bootloader` folder to your TFTP server root directory. Then copy `brocadeimage.bin` from the `Firmware` folder to the same TFTP root folder. If you're on windows and need a temporary TFTP server, I recommend [Tftpd32 Portable Edition](http://tftpd32.jounin.net/tftpd32_download.html).
 
 > **Note:** If you're using or running the v8 image/firmware that was previously linked and mentioned on this guide - replace it with the v7 image (now standard in the download ZIP) immediately. The v8 version previously linked on this site was a totally untested beta & was never released to the public. It has many serious bugs including LACP failures, route corruption with static routes, etc. The standard v7 image is the public stable release, has many more updates, and no known bugs. To flash v7 from the booted Brocade  OS at the enable CLI level, just run `copy tftp flash 192.168.1.49 brocadeimage.bin primary` and then `reload` to take effect.
 
