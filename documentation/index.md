@@ -25,15 +25,11 @@ Download the firmware ZIP below. It contains your bootloader, OS, and all the do
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server.
 
 ## Image Selection
-You need to decide which image you want to flash. There are two codetrains for this switch - v7 and v8. v8 is the "latest and greatest", and technically a beta release. However v7 is the "LTS" branch and has had more QA and more bug fixes (several months worth) compared to v8.  
+In the Firmware folder, you'll find `brocadeimage.bin` - this is the standard Layer 3 firmware image, with all layer 2 and layer 3 features in one. This is what you should use 99% of the time. If you have a specific edge case and need the layer 2-only firmware, it's included in the `Layer 2 Only` subfolder, and is named `v7-layer2.bin` - typical users will not need this.
 
-In 90% of cases, I recommend using the v7 codetrain. The v8 has one known issue already (severe LACP flapping in an STP environment), while the v7 image is flawless. Keep in mind both versions have the same L2/L3 features - so you're not missing out on anything using v7.
+Copy `brocadeboot.bin` from the Bootloader folder to your TFTP server root directory. Then copy `brocadeimage.bin` from the `Firmware` folder to the same TFTP root folder. If you're on windows and need a temporary TFTP server, I recommend [Tftpd32 Portable Edition](http://tftpd32.jounin.net/tftpd32_download.html).
 
-Once you decide which version to use, you need to decide between the L2 and L3 image. The Layer 3 image is the full OS including everything - all routing protocols as well as all L2 features. This is what should be used in 99% of cases, especially if you want to use the config guide on this site. The L2 image is layer 2 switching only. If you have a special case where this is needed, it's included.  
-
-**Note:** In 99% of cases, you should choose the v7 layer 3 image. If you're unsure about anything, use this version.
-
-Now that you've chosen, copy ```brocadeboot.bin``` from the Bootloader folder to your TFTP server root directory. Then take whatever OS image you decided upon, and rename it to ```brocadeimage.bin``` - this ensures all the commands in this guide match. Put your new ```brocadeimage.bin``` on your TFTP server as well. If you're on windows and need a temporary TFTP server, I recommend [Tftpd32 Portable Edition](http://tftpd32.jounin.net/tftpd32_download.html).
+> **Note:** If you're using or running the v8 image/firmware that was previously linked and mentioned on this guide - replace it with the v7 image (now standard in the download ZIP) immediately. The v8 version previously linked on this site was a totally untested beta & was never released to the public. It has many serious bugs including LACP failures, route corruption with static routes, etc. The standard v7 image is the public stable release, has many more updates, and no known bugs. To flash v7 from the booted Brocade  OS at the enable CLI level, just run `copy tftp flash 192.168.1.49 brocadeimage.bin primary` and then `reload` to take effect.
 
 
 
@@ -242,4 +238,4 @@ You'll need to pick up some official Brocade or Foundry optics on ebay, or buy s
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v3.3 (06-01-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v3.4 (07-09-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
