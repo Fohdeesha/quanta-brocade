@@ -20,7 +20,7 @@ Download the firmware ZIP below. It contains your bootloader, OS, and all the do
 
 [```Brocade Firmware Zip```](http://brokeaid.com/files/Brocade-TI.zip)  
 ```Zip Updated: 05-14-2018```  
-```MD5: ecb977c944e8299fc7489c595a6effae```  
+```MD5: 68aa7643a121c19fa4b8c84d7f6f2843```  
 
 Connect to the serial console  port on the switch and open a terminal window (9600 8N1). Also be sure to connect the #1 management port on the switch to a network that has layer 2 access to your tftp server.
 
