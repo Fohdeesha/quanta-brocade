@@ -1,0 +1,18 @@
+site_name: Brokeaids
+theme:
+  name: 'material'
+  palette:
+    primary: 'red'
+    accent: 'light blue'
+
+dev_addr: 192.168.1.8:8000
+pages:
+    - (LB6M) LB6M To Brocade: index.md
+    - (LB6M) L3 Quick Guide: config.md
+    - (LB6M) Fix MAC Address: mac.md
+    - (LB6M) Management Port: mgmt.md
+    - (LB6M) Revert To Fastpath: revert.md
+    - (LB6M) Backstory: story.md
+    - (7024) Delta To Dell: delta.md
+
+google_analytics: ['UA-2400722-3', 'brokeaid.com']
