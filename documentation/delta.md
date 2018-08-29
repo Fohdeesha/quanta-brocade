@@ -25,7 +25,7 @@ Connect to the serial console  port on the switch and open a terminal window (96
 
 ## TFTP Preparation
 
-You need to temporarily run a TFTP server. If you're on windows and need a temporary TFTP server, I recommend [Tftpd32 Portable Edition](http://tftpd32.jounin.net/tftpd32_download.html). Copy ```8024boot.bin``` from the ZIP to your TFTP server root directory. Copy the OS image from ZIP to your TFTP server root directory as well (```PC8024v5.1.12.2.stk```).
+You need to temporarily run a TFTP server. If you're on windows and need a temporary TFTP server, I recommend [Tftpd32 Portable Edition](http://www.tftpd64.com/tftpd32_download.html). Copy ```8024boot.bin``` from the ZIP to your TFTP server root directory. Copy the OS image from ZIP to your TFTP server root directory as well (```PC8024v5.1.12.2.stk```).
 
 
 
