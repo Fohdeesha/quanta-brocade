@@ -142,7 +142,7 @@ After it reboots back into u-boot, we can now boot Fastpath in order to flash it
 setenv ipaddr 192.168.1.50
 setenv serverip 192.168.1.49
 tftpboot 0x08000000 lb6m.1.2.0.18.img
-boot
+bootm 0x08000074
 ```
 
 It should boot into a FASTPATH Startup menu:
