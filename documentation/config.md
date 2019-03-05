@@ -8,7 +8,7 @@
 
 Brocade's CLI is 80% identical to Cisco, with the majority of the differences being related to VLAN configuration. This guide will introduce you to the basics like vlans, SSH, inter-vlan routing, etc. The Layer 3 firmware comes with all ports in VLAN 1 by default, so if you just need layer 2 switching, you can leave the config as-is and use the out of band management port to talk to the switch.  
 
-This guide was intended for the v8 layer 3 OS image. Everything should work in the v7 layer 3 image as well, but it's not guaranteed. If you're running the L2 only image from either codetrain, most of these commands will not work.  
+This guide was intended for the v7.x layer 3 OS image. If you're running the L2 only image from either codetrain, most of these commands will not work.  
 
 Please keep in mind that any commands you run take effect immediately - however they have not been saved in flash, so they will disappear on reboot. To commit changes to flash, use the command ```write memory```.
 
