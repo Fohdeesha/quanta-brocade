@@ -202,17 +202,6 @@ Please check out and follow the included guides in the Documentation folder to c
 
 Flashing the switch resets the base MAC address to a default 00e0.5200.0100 - on its own this isn't a problem, but if you connect multiple flashed switches you're going to have serious collision issues. We highly recommend taking the extra minute to follow the [MAC Reset Guide](http://brokeaid.com/mac/).
 
-## Fan Speeds
-The Brocade firmware has the ability to set fan speeds and quiet it down. [This video](https://www.youtube.com/watch?v=QbMITnNv2FM) shows the audible difference. The OS has 3 fan speeds it automatically cycles through as temperature rises and falls. To bypass this and lock the fan speeds at the lowest level, run the below once the switch has booted into the OS:
-```
-enable
-conf t
-fan-speed 1
-write memory
-```
-Take a look at the output of ```show chassis``` and make sure your temperatures are below the indicated warning level. For 90% of environments, ```fan-speed 1``` will still keep it plenty cool.  
-
-If you'd like to get more advanced, there's also the ```fan-threshold``` command, which allows you to customize the temperature thresholds for each fan level, instead of locking it to one speed - but that's beyond this guide. 
 
 ## SFP+ Information
 

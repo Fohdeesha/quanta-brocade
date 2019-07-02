@@ -169,6 +169,15 @@ sntp server 216.239.35.4
 You can specify up to 8 or as little NTP servers as you'd like. Only IP addresses are allowed, no hostnames. The IP's in the example above are Google's public NTP servers.
 
 
+## Fan Speeds
+The Brocade firmware has the ability to set fan speeds and quiet it down. [This video](https://www.youtube.com/watch?v=QbMITnNv2FM) shows the audible difference. The OS has 3 fan speeds it automatically cycles through as temperature rises and falls. To bypass this and lock the fan speeds at the lowest level, run the below:
+```
+fan-speed 1
+```
+Take a look at the output of ```show chassis``` and make sure your temperatures are below the indicated warning level. For 90% of environments, ```fan-speed 1``` will still keep it plenty cool.  
+
+If you'd like to get more advanced, there's also the ```fan-threshold``` command, which allows you to customize the temperature thresholds for each fan level, instead of locking it to one speed - but that's beyond this guide. 
+
 ## Saving & Conclusions
 Now of course none of the changes have actually been saved to flash, so on next boot they'll disappear. To save your current running configuration so they remain on reboot:
 ```
