@@ -18,7 +18,7 @@ The risk of doing this is mitigated if you're prepared and follow closely. It's 
 
 Download the firmware ZIP below. It contains your bootloader, OS, and all the documentation you'll need.  
 
-[```Brocade Firmware Zip```](http://brokeaid.com/files/Brocade-TI.zip)  
+[```Brocade Firmware Zip```](https://brokeaid.com/files/Brocade-TI.zip)  
 ```Zip Updated: 05-14-2018```  
 ```MD5: 68aa7643a121c19fa4b8c84d7f6f2843```  
 

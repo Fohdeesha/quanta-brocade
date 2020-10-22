@@ -177,7 +177,7 @@ Do you want to continue? Press(Y/N):  y
 ```
 It will flash the image then ask to reboot - hit yes. It should reboot as normal all the way into the Fastpath software it was originally shipped with, and you're done. If you forgot, the default fastpath login is ```admin``` with no password.  
 
-If you're worried about "wearing out" the onboard flash by flashing back and forth, it's a non-issue. As you can see in the [S29GL256P datasheet](http://brokeaid.com/files/flashdata.pdf), the onboard flash IC is good for 100,000 erase-write cycles per sector. 
+If you're worried about "wearing out" the onboard flash by flashing back and forth, it's a non-issue. As you can see in the [S29GL256P datasheet](https://brokeaid.com/files/flashdata.pdf), the onboard flash IC is good for 100,000 erase-write cycles per sector. 
 
 
 ### Thanks:

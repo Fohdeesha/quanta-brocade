@@ -16,7 +16,7 @@ The risk of doing this is mitigated if you're prepared and follow closely. It's 
 
 Download the firmware ZIP below. It contains your bootloader, OS, and all the documentation you'll need.  
 
-[```Dell Firmware Zip```](http://brokeaid.com/files/8024.zip)  
+[```Dell Firmware Zip```](https://brokeaid.com/files/8024.zip)  
 ```Zip Updated: 05-16-2018```  
 ```FW Version: 5.1.12.2```
 ```MD5: ec0075e95945b3f86ce4a6c9a8549f86```  
