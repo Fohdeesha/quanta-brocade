@@ -117,7 +117,7 @@ Disable the flash write protection:
 ```
 protect off all
 ```
-Erase the Quanta bootloader:
+Erase the Delta bootloader:
 ```
 erase 0xfff00000 0xffffffff
 ```
