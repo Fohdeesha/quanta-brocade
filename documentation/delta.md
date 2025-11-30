@@ -274,4 +274,4 @@ You should not need this, but just in case you are curious: there is a hidden lo
 ### Contributing:
 The markdown source for these guides is hosted on [**our Github repo.**](https://github.com/Fohdeesha/quanta-brocade) If you have any suggested changes or additions feel free to submit a pull request.  
 
-```Documentation version:``` [ v0.7 (05-18-18)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
+```Documentation version:``` [ v0.8 (11-29-25)](https://github.com/Fohdeesha/quanta-brocade/commits/master) 
