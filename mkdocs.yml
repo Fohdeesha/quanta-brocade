@@ -6,7 +6,7 @@ theme:
     accent: 'light blue'
 
 dev_addr: 192.168.1.8:8000
-pages:
+nav:
     - (LB6M) LB6M To Brocade: index.md
     - (LB6M) L3 Quick Guide: config.md
     - (LB6M) Fix MAC Address: mac.md
